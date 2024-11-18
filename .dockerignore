@@ -1,0 +1,24 @@
+# Ignore the build output directory
+target/
+
+# Ignore the Maven or Gradle wrapper directories
+.gradle/
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Ignore IDE configuration files
+.idea/
+*.iml
+*.iws
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore version control directories
+.git/
+.gitignore
+
+# Ignore Docker-specific files
+Dockerfile
+.dockerignore

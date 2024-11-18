@@ -1,0 +1,132 @@
+[
+  {
+    "name": "BMW",
+    "models": [
+      {
+        "name": "Series 1",
+        "variants": [
+          { "name": "Default" },
+          { "name": "M135" }
+        ],
+        "category": "Small"
+      },
+      {
+        "name": "Series 3",
+        "variants": [
+          { "name": "320i" },
+          { "name": "330i" }
+        ],
+        "category": "Medium"
+      },
+      {
+        "name": "X3",
+        "variants": [
+          { "name": "Default" }
+        ],
+        "category": "SUV"
+      },
+      {
+        "name": "Z4",
+        "variants": [
+          { "name": "Default" }
+        ],
+        "category": "Premium"
+      }
+    ]
+  },
+  {
+    "name": "Audi",
+    "models": [
+      {
+        "name": "A3",
+        "variants": [
+          { "name": "Default" },
+          { "name": "S3" }
+        ],
+        "category": "Small"
+      },
+      {
+        "name": "A4",
+        "variants": [
+          { "name": "Default" },
+          { "name": "S4" }
+        ],
+        "category": "Medium"
+      },
+      {
+        "name": "A7",
+        "variants": [
+          { "name": "RS7" }
+        ],
+        "category": "Premium"
+      },
+      {
+        "name": "Q5",
+        "variants": [
+          { "name": "Default" },
+          { "name": "S5" }
+        ],
+        "category": "SUV"
+      }
+    ]
+  },
+  {
+    "name": "Mercedes-Benz",
+    "models": [
+      {
+        "name": "A-Class",
+        "variants": [
+          { "name": "A180" },
+          { "name": "A200" }
+        ],
+        "category": "Small"
+      },
+      {
+        "name": "C-Class",
+        "variants": [
+          { "name": "C200" },
+          { "name": "C300" }
+        ],
+        "category": "Medium"
+      },
+      {
+        "name": "EQA",
+        "variants": [
+          { "name": "EQA 250" },
+          { "name": "EQA 300" }
+        ],
+        "category": "SUV"
+      }
+    ]
+  },
+  {
+    "name": "Volkswagen",
+    "models": [
+      {
+        "name": "Golf",
+        "variants": [
+          { "name": "Default" },
+          { "name": "Life" },
+          { "name": "R-Line" }
+        ],
+        "category": "Small"
+      },
+      {
+        "name": "Passat",
+        "variants": [
+          { "name": "Default" },
+          { "name": "Elegance" }
+        ],
+        "category": "Medium"
+      },
+      {
+        "name": "Tiguan",
+        "variants": [
+          { "name": "Default" },
+          { "name": "R-Line" }
+        ],
+        "category": "SUV"
+      }
+    ]
+  }
+]

@@ -1,0 +1,207 @@
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    env_file: ./.env
+    environment:
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_PASS
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks: 
+      - rentacme_network
+
+  eureka:
+    container_name: eureka
+    build:
+      context: ./
+      dockerfile: ./services/eureka/Dockerfile
+    ports:
+      - 8761:8761
+    networks: 
+      - rentacme_network
+
+  inventory-db:
+    container_name: inventory-db
+    image: postgres
+    env_file: ./.env
+    ports:
+      - 5210:5432
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: inventory
+    networks: 
+      - rentacme_network
+
+  inventory:
+    container_name: inventory
+    build:
+      context: ./
+      dockerfile: ./services/inventory/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://inventory-db:5432/inventory
+      SPRING_DATASOURCE_USERNAME: $POSTGRES_USER
+      SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_PORT: $RABBITMQ_PORT
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
+    ports:
+      - 5215:8080
+      - 5216:8000 # Debug
+    depends_on:
+      - eureka
+      - inventory-db
+    networks: 
+      - rentacme_network
+
+  notification:
+      container_name: notification
+      build:
+        context: ./
+        dockerfile: ./services/notification/Dockerfile
+      environment:
+        RABBITMQ_HOST: $RABBITMQ_HOST
+        RABBITMQ_PORT: $RABBITMQ_PORT
+        RABBITMQ_USER: $RABBITMQ_USER
+        RABBITMQ_PASS: $RABBITMQ_PASS
+        EUREKA_URL_ZONE: $EUREKA_URL_ZONE
+      ports:
+        - 5225:8080
+        - 5226:8000 # Debug
+      depends_on:
+        - eureka
+      networks: 
+        - rentacme_network
+
+  reservation-db:
+    container_name: reservation-db
+    image: postgres
+    env_file: ./.env
+    ports:
+      - 5230:5432
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: reservation
+    networks: 
+      - rentacme_network
+
+  reservation:
+    container_name: reservation
+    build:
+      context: ./
+      dockerfile: ./services/reservation/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://reservation-db:5432/reservation
+      SPRING_DATASOURCE_USERNAME: $POSTGRES_USER
+      SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_PORT: $RABBITMQ_PORT
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
+    ports:
+      - 5235:8080
+      - 5236:8000 # Debug
+    depends_on:
+      - eureka
+      - reservation-db
+    networks: 
+      - rentacme_network
+
+  user-db:
+    container_name: user-db
+    image: postgres
+    env_file: ./.env
+    ports:
+      - 5240:5432
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: user
+    networks: 
+      - rentacme_network
+
+  user:
+    container_name: user
+    build:
+      context: ./
+      dockerfile: ./services/user/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/user
+      SPRING_DATASOURCE_USERNAME: $POSTGRES_USER
+      SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_PORT: $RABBITMQ_PORT
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
+    ports:
+      - 5245:8080
+      - 5246:8000 # Debug
+    depends_on:
+      - eureka
+      - user-db
+    networks: 
+      - rentacme_network
+
+  payment:
+    container_name: payment
+    build:
+      context: ./
+      dockerfile: ./services/payment/Dockerfile
+    environment:
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_PORT: $RABBITMQ_PORT
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
+    ports:
+      - 5255:8080
+      - 5256:8000 # Debug
+    depends_on:
+      - eureka
+    networks: 
+      - rentacme_network
+
+  state-machine-db:
+    container_name: state-machine-db
+    image: postgres
+    env_file: ./.env
+    ports:
+      - 5260:5432
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: state_machine
+    networks: 
+      - rentacme_network
+
+  state-machine:
+    container_name: state-machine
+    build:
+      context: ./
+      dockerfile: ./state-machines/state-machine/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://state-machine-db:5432/state_machine
+      SPRING_DATASOURCE_USERNAME: $POSTGRES_USER
+      SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_PORT: $RABBITMQ_PORT
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
+    ports:
+      - 5265:8080
+      - 5266:8000 # Debug
+    depends_on:
+      - state-machine-db
+    networks: 
+      - rentacme_network
+
+networks:
+  rentacme_network:
