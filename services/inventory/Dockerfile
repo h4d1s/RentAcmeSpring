@@ -1,18 +1,18 @@
-FROM maven:3-openjdk-17-slim AS maven
+FROM maven:3.9-eclipse-temurin-21-alpine AS maven
 
-COPY ./services/inventory/pom.xml .
+WORKDIR /app
 
-COPY ./libs/eventbus/target/*.jar ./libs/com/pixellabs/eventbus/eventbus/0.0.1-SNAPSHOT/
+COPY . .
 
-RUN mvn dependency:go-offline
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn -B -ntp clean package \
+    -pl services/inventory \
+    -am \
+    -DskipTests
 
-COPY ./services/inventory/src ./src
+FROM eclipse-temurin:21-jre-alpine
 
-RUN mvn clean install -DskipTests
-
-FROM openjdk:17-jdk-alpine
-
-ARG JAR_FILE=target/*.jar
+ARG JAR_FILE=/app/services/inventory/target/*SNAPSHOT.jar
 COPY --from=maven ${JAR_FILE} app.jar
 
 EXPOSE 8000

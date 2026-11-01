@@ -7,19 +7,20 @@ services:
       RABBITMQ_DEFAULT_USER: $RABBITMQ_USER
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_PASS
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     networks: 
       - rentacme_network
 
-  eureka:
-    container_name: eureka
+  gateway:
+    container_name: gateway
     build:
       context: ./
-      dockerfile: ./services/eureka/Dockerfile
+      dockerfile: ./gateways/gateway/Dockerfile
     ports:
-      - 8761:8761
-    networks: 
+      - "5215:8080"
+      - "5216:8000" # Debug
+    networks:
       - rentacme_network
 
   inventory-db:
@@ -27,7 +28,7 @@ services:
     image: postgres
     env_file: ./.env
     ports:
-      - 5210:5432
+      - "5220:5432"
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
@@ -35,8 +36,8 @@ services:
     networks: 
       - rentacme_network
 
-  inventory:
-    container_name: inventory
+  inventory-api:
+    container_name: inventory-api
     build:
       context: ./
       dockerfile: ./services/inventory/Dockerfile
@@ -48,18 +49,16 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
     ports:
-      - 5215:8080
-      - 5216:8000 # Debug
+      - "5225:8080"
+      - "5226:8000" # Debug
     depends_on:
-      - eureka
       - inventory-db
     networks: 
       - rentacme_network
 
-  notification:
-      container_name: notification
+  notification-api:
+      container_name: notification-api
       build:
         context: ./
         dockerfile: ./services/notification/Dockerfile
@@ -68,12 +67,9 @@ services:
         RABBITMQ_PORT: $RABBITMQ_PORT
         RABBITMQ_USER: $RABBITMQ_USER
         RABBITMQ_PASS: $RABBITMQ_PASS
-        EUREKA_URL_ZONE: $EUREKA_URL_ZONE
       ports:
-        - 5225:8080
-        - 5226:8000 # Debug
-      depends_on:
-        - eureka
+        - "5235:8080"
+        - "5236:8000" # Debug
       networks: 
         - rentacme_network
 
@@ -82,7 +78,7 @@ services:
     image: postgres
     env_file: ./.env
     ports:
-      - 5230:5432
+      - "5240:5432"
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
@@ -90,8 +86,8 @@ services:
     networks: 
       - rentacme_network
 
-  reservation:
-    container_name: reservation
+  reservation-api:
+    container_name: reservation-api
     build:
       context: ./
       dockerfile: ./services/reservation/Dockerfile
@@ -103,12 +99,10 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
     ports:
-      - 5235:8080
-      - 5236:8000 # Debug
+      - "5245:8080"
+      - "5246:8000" # Debug
     depends_on:
-      - eureka
       - reservation-db
     networks: 
       - rentacme_network
@@ -118,7 +112,7 @@ services:
     image: postgres
     env_file: ./.env
     ports:
-      - 5240:5432
+      - "5250:5432"
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
@@ -126,8 +120,8 @@ services:
     networks: 
       - rentacme_network
 
-  user:
-    container_name: user
+  user-api:
+    container_name: user-api
     build:
       context: ./
       dockerfile: ./services/user/Dockerfile
@@ -139,18 +133,16 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
     ports:
-      - 5245:8080
-      - 5246:8000 # Debug
+      - "5255:8080"
+      - "5256:8000" # Debug
     depends_on:
-      - eureka
       - user-db
     networks: 
       - rentacme_network
 
-  payment:
-    container_name: payment
+  payment-api:
+    container_name: payment-api
     build:
       context: ./
       dockerfile: ./services/payment/Dockerfile
@@ -159,12 +151,10 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
+      STRIPE_API_KEY: $STRIPE_API_KEY
     ports:
-      - 5255:8080
-      - 5256:8000 # Debug
-    depends_on:
-      - eureka
+      - "5265:8080"
+      - "5266:8000" # Debug
     networks: 
       - rentacme_network
 
@@ -173,7 +163,7 @@ services:
     image: postgres
     env_file: ./.env
     ports:
-      - 5260:5432
+      - "5270:5432"
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
@@ -194,10 +184,9 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      EUREKA_URL_ZONE: $EUREKA_URL_ZONE
     ports:
-      - 5265:8080
-      - 5266:8000 # Debug
+      - "5275:8080"
+      - "5276:8000" # Debug
     depends_on:
       - state-machine-db
     networks: 
