@@ -12,9 +12,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   rabbitmq:
     host: ${RABBITMQ_HOST}
@@ -22,20 +19,5 @@ spring:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
 
-  logging:
-    level:
-      org:
-        springframework:
-        security: DEBUG
-        security.oauth2: DEBUG
-        web: DEBUG
-
 server:
   port: 8080
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URL_ZONE}
-  instance:
-    hostname: user

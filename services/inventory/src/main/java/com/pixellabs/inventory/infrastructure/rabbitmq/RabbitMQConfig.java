@@ -9,23 +9,23 @@ import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFacto
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 
 @Configuration
-public class RabbitMQConfig {    
+public class RabbitMQConfig {
     @Bean
-    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
-        return new Jackson2JsonMessageConverter();
+    public JacksonJsonMessageConverter jacksonJsonMessageConverter() {
+        return new JacksonJsonMessageConverter();
     }
     
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        factory.setMessageConverter(jackson2JsonMessageConverter());
+        factory.setMessageConverter(jacksonJsonMessageConverter());
         return factory;
     }
     
@@ -64,34 +64,34 @@ public class RabbitMQConfig {
 	
 	// Bindings
     @Bean
-    public Binding bookingReservedBinding(DirectExchange bookingExchange, Queue bookingReservedQueue) {
-        return BindingBuilder.bind(bookingReservedQueue)
-                             .to(bookingExchange)
+    public Binding bookingReservedBinding() {
+        return BindingBuilder.bind(bookingReservedQueue())
+                             .to(bookingExchange())
                              .with(BusConstants.ROUTING_KEY_BOOKING_RESERVED);
     }
     @Bean
-    public Binding bookingCanceledBinding(DirectExchange bookingExchange, Queue bookingCanceledQueue) {
-        return BindingBuilder.bind(bookingCanceledQueue)
-                             .to(bookingExchange)
+    public Binding bookingCanceledBinding() {
+        return BindingBuilder.bind(bookingCanceledQueue())
+                             .to(bookingExchange())
                              .with(BusConstants.ROUTING_KEY_BOOKING_CANCELED);
     }
     @Bean
-    public Binding bookingCompletedBinding(DirectExchange bookingExchange, Queue bookingCompletedQueue) {
-        return BindingBuilder.bind(bookingCompletedQueue)
-                             .to(bookingExchange)
+    public Binding bookingCompletedBinding() {
+        return BindingBuilder.bind(bookingCompletedQueue())
+                             .to(bookingExchange())
                              .with(BusConstants.ROUTING_KEY_BOOKING_COMPLETED);
     }
     
     @Bean
-    public Binding vehicleGetRequestBinding(DirectExchange inventoryExchange, Queue vehicleGetRequestQueue) {
-        return BindingBuilder.bind(vehicleGetRequestQueue)
-                             .to(inventoryExchange)
+    public Binding vehicleGetRequestBinding() {
+        return BindingBuilder.bind(vehicleGetRequestQueue())
+                             .to(inventoryExchange())
                              .with(BusConstants.ROUTING_KEY_VEHICLE_GET_REQUEST);
     }
     @Bean
-    public Binding vehicleCheckRequestBinding(DirectExchange inventoryExchange, Queue vehicleCheckRequestQueue) {
-        return BindingBuilder.bind(vehicleCheckRequestQueue)
-                             .to(inventoryExchange)
+    public Binding vehicleCheckRequestBinding() {
+        return BindingBuilder.bind(vehicleCheckRequestQueue())
+                             .to(inventoryExchange())
                              .with(BusConstants.ROUTING_KEY_VEHICLE_CHECK_REQUEST);
     }
 }

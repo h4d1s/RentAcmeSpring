@@ -10,11 +10,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @Setter
-@Jacksonized @Builder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingDTO {
