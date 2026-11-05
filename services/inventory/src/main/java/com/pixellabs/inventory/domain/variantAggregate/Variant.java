@@ -2,64 +2,103 @@ package com.pixellabs.inventory.domain.variantAggregate;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import com.pixellabs.inventory.domain.exceptions.InventoryDomainException;
 import com.pixellabs.inventory.domain.modelAggregate.Model;
-import com.pixellabs.inventory.domain.vehicleAggregate.Vehicle;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Variant extends AbstractAggregateRoot<Variant> {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	private String name;
+
+	@Enumerated(EnumType.STRING)
 	private Gearbox gearbox;
+
+	@Enumerated(EnumType.STRING)
 	private FuelType fuelType;
-	public int power;
-	public int engineSize;
-	
-	@ManyToOne
+
+	private int power;
+	private int engineSize;
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "model_id")
 	private Model model;
-	
-	@ManyToOne
-    @JoinColumn(name = "vehicle_id")
-	private Vehicle vehicle;
 
-	public Variant(String name, Gearbox gearbox, FuelType fuelType, int power, int engineSize, Model model, Vehicle vehicle) throws InventoryDomainException {
+	public Variant(
+		String name,
+		Gearbox gearbox,
+		FuelType fuelType,
+		int power,
+		int engineSize,
+		Model model) throws InventoryDomainException {
 		super();
-		this.name = name;
-		this.gearbox = gearbox;
-		this.fuelType = fuelType;
-		
-		if(power <= 0) {
-			throw new InventoryDomainException("Power must be grater than 0");
-		}
-		
-		this.power = power;
-		this.engineSize = engineSize;
-		
-		if(engineSize <= 0) {
-			throw new InventoryDomainException("Engine size must be grater than 0");
-		}
-				
+
+		this.id = UUID.randomUUID();
+		this.updateName(name);
+		this.updateGearbox(gearbox);
+		this.updateFuelType(fuelType);
+		this.updatePower(power);
+		this.updateEngineSize(engineSize);
 		this.model = model;
-		this.vehicle = vehicle;
+	}
+
+	public void updateName(String name) throws InventoryDomainException {
+		validateName(name);
+		this.name = name;
+	}
+
+	public void updateGearbox(Gearbox gearbox) {
+		this.gearbox = gearbox;
+	}
+
+	public void updateFuelType(FuelType fuelType) {
+		this.fuelType = fuelType;
+	}
+
+	public void updatePower(int power) throws InventoryDomainException {
+		validatePower(power);
+		this.power = power;
+	}
+
+	public void updateEngineSize(int engineSize) throws InventoryDomainException {
+		validateEngineSize(engineSize);
+		this.engineSize = engineSize;
+	}
+
+	public void updateModel(Model model) throws InventoryDomainException {
+		if (model == null) {
+			throw new InventoryDomainException("Model cannot be null.");
+		}
+
+		this.model = model;
+	}
+
+	private void validateName(String name) throws InventoryDomainException {
+		if (name == null || name.isBlank()) {
+			throw new InventoryDomainException("Model name cannot be empty.");
+		}
+	}
+
+	private void validatePower(int power) throws InventoryDomainException {
+		if (power <= 0) {
+			throw new InventoryDomainException("Power must be a positive integer.");
+		}
+	}
+
+	private void validateEngineSize(int engineSize) throws InventoryDomainException {
+		if (engineSize <= 0) {
+			throw new InventoryDomainException("Engine size must be a positive integer.");
+		}
 	}
 }

@@ -5,20 +5,21 @@
 
     <groupId>com.pixellabs</groupId>
     <artifactId>rent-acme</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>rent-acme</name>
 
     <modules>
         <module>libs/eventbus</module>
-        <module>gateways/gateway</module>
+        <module>libs/contracts</module>
+        <module>services/gateways/gateway</module>
         <module>services/inventory</module>
         <module>services/notification</module>
         <module>services/payment</module>
         <module>services/reservation</module>
         <module>services/user</module>
-        <module>state-machines/state-machine</module>
+        <module>services/state-machines/state-machine</module>
     </modules>
 
     <properties>
@@ -147,6 +148,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.15.0</version>
                     <configuration>
                         <compilerArgs>
                             <arg>-parameters</arg>

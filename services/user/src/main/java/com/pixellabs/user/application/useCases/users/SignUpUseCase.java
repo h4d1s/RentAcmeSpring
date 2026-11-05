@@ -1,7 +1,6 @@
 package com.pixellabs.user.application.useCases.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.pixellabs.user.application.useCases.users.dtos.SignUpRequest;
@@ -16,8 +15,8 @@ public class SignUpUseCase {
 	@Autowired
 	private final UserRepository userRepository;
 	
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+	//@Autowired
+    //private PasswordEncoder passwordEncoder;
 	
 	public SignUpUseCase(UserRepository userRepository) {
 		super();
@@ -37,7 +36,7 @@ public class SignUpUseCase {
 		
 		User user = new User();
 		user.setUsername(request.getUsername());
-		user.setPassword(passwordEncoder.encode(request.getPassword()));
+		//user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setRoles("USER");
 		
 		userRepository.save(user);

@@ -1,0 +1,358 @@
+{
+  "realm": "rent-acme",
+  "enabled": true,
+  "registrationAllowed": true,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+
+  "eventsEnabled": true,
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "eventsListeners": [
+    "jboss-logging",
+    "keycloak-to-rabbitmq"
+  ],
+  "enabledEventTypes": [
+    "REGISTER",
+    "LOGIN",
+    "LOGOUT",
+    "CREATE_USER",
+    "DELETE_USER",
+    "UPDATE_PROFILE"
+  ],
+
+  "smtpServer": {
+    "host": "mailhog",
+    "port": "1025",
+    "from": "noreply@rent-acme.com",
+    "fromDisplayName": "Rent Acme Auth",
+    "auth": "false",
+    "ssl": "false",
+    "starttls": "false"
+  },
+
+  "defaultRoles": [ "Customer" ],
+
+  "roles": {
+    "realm": [
+      {
+        "name": "Customer",
+        "description": "Customer",
+        "composites": {
+          "client": {
+            "rent-acme-api": [
+              "booking.reserve",
+              "booking.cancel",
+              "booking.view.own",
+
+              "user.view.own",
+              "user.update.own",
+              "user.delete.own"
+            ]
+          }
+        }
+      },
+      {
+        "name": "Admin",
+        "description": "Full access to all resources",
+        "composites": {
+          "client": {
+            "rent-acme-api": [
+              "booking.reserve",
+              "booking.cancel",
+              "booking.complete",
+              "booking.view.own",
+              "booking.view.any",
+
+              "brand.create",
+              "brand.update",
+              "brand.delete",
+
+              "model.create",
+              "model.update",
+              "model.delete",
+
+              "variant.create",
+              "variant.update",
+              "variant.delete",
+
+              "vehicle.create",
+              "vehicle.update",
+              "vehicle.delete",
+
+              "user.view.own",
+              "user.view.any",
+              "user.update.own",
+              "user.update.any",
+              "user.delete.own",
+              "user.delete.any"
+            ]
+          }
+        }
+      }
+    ],
+    "client": {
+      "rent-acme-api": [
+        { "name": "booking.reserve" },
+        { "name": "booking.cancel" },
+        { "name": "booking.complete" },
+        { "name": "booking.view.own" },
+        { "name": "booking.view.any" },
+
+        { "name": "brand.create" },
+        { "name": "brand.update" },
+        { "name": "brand.delete" },
+
+        { "name": "model.create" },
+        { "name": "model.update" },
+        { "name": "model.delete" },
+
+        { "name": "variant.create" },
+        { "name": "variant.update" },
+        { "name": "variant.delete" },
+
+        { "name": "vehicle.create" },
+        { "name": "vehicle.update" },
+        { "name": "vehicle.delete" },
+
+        { "name": "user.view.own" },
+        { "name": "user.view.any" },
+        { "name": "user.update.own" },
+        { "name": "user.update.any" },
+        { "name": "user.delete.own" },
+        { "name": "user.delete.any" }
+      ]
+    }
+  },
+  "clientScopes": [
+    {
+      "name": "email",
+      "description": "OpenID Connect email claims",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "user.attribute": "email",
+            "claim.name": "email",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "email-verified",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "user.attribute": "emailVerified",
+            "claim.name": "email_verified",
+            "jsonType.label": "boolean",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "description": "OpenID Connect standard profile claims",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "full-name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-full-name-mapper",
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "username",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "user.attribute": "username",
+            "claim.name": "preferred_username",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "given-name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "user.attribute": "firstName",
+            "claim.name": "given_name",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "family-name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "user.attribute": "lastName",
+            "claim.name": "family_name",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rent-acme-api-access",
+      "description": "API authorization claims for Rent Acme",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "realm-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "claim.name": "roles",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "false",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "api-entitlements",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "config": {
+            "claim.name": "entitlements",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "false",
+            "multivalued": "true",
+            "usermodel.clientRoleMapping.clientId": "rent-acme-api"
+          }
+        },
+        {
+          "name": "api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "rent-acme-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+
+  "users": [
+    {
+      "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "username": "rent-acme-admin",
+      "email": "admin@rent-acme.com",
+      "firstName": "Admin",
+      "lastName": "Administrator",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [ "Admin" ]
+    },
+    {
+      "id": "a1b2c3d4-e5f6-47a8-9b0c-1d2e3f4a5b6c",
+      "username": "jsmith",
+      "email": "john.smith@rent-acme.com",
+      "firstName": "John",
+      "lastName": "Smith",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Passw0rd!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [ "Customer" ]
+    },
+    {
+      "username": "service-account-rent-acme-api",
+      "serviceAccountClientId": "rent-acme-api",
+      "enabled": true,
+      "realmRoles": [
+        "Admin"
+      ]
+    }
+  ],
+
+  "clients": [
+    {
+      "clientId": "rent-acme-web",
+      "name": "Rent Acme Web Frontend",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "redirectUris": [
+        "https://oauth.pstmn.io/v1/callback"
+      ],
+      "webOrigins": [
+        "https://oauth.pstmn.io"
+      ],
+      "defaultClientScopes": [
+        "email",
+        "profile",
+        "rent-acme-api-access"
+      ]
+    },
+    {
+      "clientId": "rent-acme-api",
+      "name": "Rent Acme Backend Service",
+      "protocol": "openid-connect",
+      "enabled": true,
+      "publicClient": false,
+      "bearerOnly": true,
+      "serviceAccountsEnabled": true,
+      "fullScopeAllowed": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${KEYCLOAK_BACKEND_SECRET:none}",
+      "defaultClientScopes": [
+        "email",
+        "profile",
+        "rent-acme-api-access"
+      ]
+    }
+  ]
+}

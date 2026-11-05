@@ -17,6 +17,7 @@ public class BusConstants {
     public static final String QUEUE_PAYMENT_COMPLETE_COMMAND = "payment.complete.command.queue";
     public static final String QUEUE_PAYMENT_COMPLETED = "payment.completed.queue";
     public static final String QUEUE_PAYMENT_FAILED = "payment.failed.queue";
+    public static final String QUEUE_CREATE_PAYMENT_INTENT_COMMAND = "payment.create.intent.command.queue";
     
     public static final String QUEUE_USER_CREATED = "user.created.queue";
     public static final String QUEUE_USER_CHECK_REQUEST = "user.check.request.queue";
@@ -24,6 +25,8 @@ public class BusConstants {
 
     public static final String QUEUE_VEHICLE_GET_REQUEST = "vehicle.get.request.queue";
     public static final String QUEUE_VEHICLE_CHECK_REQUEST = "vehicle.check.request.queue";
+    public static final String QUEUE_VEHICLE_LOCK_COMMAND = "vehicle.lock.command.queue";
+    public static final String QUEUE_VEHICLE_UNLOCK_COMMAND = "vehicle.unlock.command.queue";
     
     // Define routing keys
     public static final String ROUTING_KEY_BOOKING_RESERVED = "booking.reserved.routing.key";
@@ -41,4 +44,7 @@ public class BusConstants {
     
     public static final String ROUTING_KEY_VEHICLE_GET_REQUEST = "vehicle.get.request.routing.key";
     public static final String ROUTING_KEY_VEHICLE_CHECK_REQUEST = "vehicle.check.request.routing.key";
+    public static final String ROUTING_KEY_VEHICLE_LOCKED = "vehicle.locked.routing.key";
+    public static final String ROUTING_KEY_VEHICLE_UNLOCKED = "vehicle.unlocked.routing.key";
+    public static final String ROUTING_KEY_VEHICLE_UNAVAILABLE = "vehicle.unavailable.routing.key";
 }
