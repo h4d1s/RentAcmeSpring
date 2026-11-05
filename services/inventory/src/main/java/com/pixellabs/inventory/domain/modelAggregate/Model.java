@@ -1,10 +1,14 @@
 package com.pixellabs.inventory.domain.modelAggregate;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.time.Year;
+import java.time.ZoneOffset;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import com.pixellabs.inventory.domain.brandAggregate.Brand;
@@ -12,88 +16,114 @@ import com.pixellabs.inventory.domain.exceptions.InventoryDomainException;
 import com.pixellabs.inventory.domain.variantAggregate.FuelType;
 import com.pixellabs.inventory.domain.variantAggregate.Gearbox;
 import com.pixellabs.inventory.domain.variantAggregate.Variant;
-import com.pixellabs.inventory.domain.vehicleAggregate.Vehicle;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Model extends AbstractAggregateRoot<Model> {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	private String name;
 	private int yearOfProduction;
 	private int numberOfSeats;
+
+	@Enumerated(EnumType.STRING)
 	private Category category;
-	
-	@ManyToOne
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
 	private Brand brand;
-	
-	@OneToMany
-	private Set<Variant> variants;
 
-	public Model(String name, int yearOfProduction, int numberOfSeats, Category category, Brand brand) throws InventoryDomainException {
+	@JsonIgnore
+	@OneToMany(mappedBy = "model", cascade = CascadeType.ALL, orphanRemoval = true)
+	private final Set<Variant> variants = new HashSet<>();
+
+	public Model(
+		String name,
+		int yearOfProduction,
+		int numberOfSeats,
+		Category category,
+		Brand brand) throws InventoryDomainException {
 		super();
-		
-		if(name.isEmpty()) {
-			throw new InventoryDomainException("Model name cannot be empty.");
-		}
-		
-		this.name = name;
-		
-		if(yearOfProduction < 1900) {
-			throw new InventoryDomainException("Model year of production must be grater than 1900.");
-		}
-		
-		if(yearOfProduction > LocalDate.now().getYear()) {
-			throw new InventoryDomainException("Model year of production cannot be in the future.");
-		}
-		
-		this.yearOfProduction = yearOfProduction;
-		
-		if(numberOfSeats <= 0) {
-			throw new InventoryDomainException("Model number of seats must be greater than 0.");
-		}
-		
-		this.numberOfSeats = numberOfSeats;
-		
-		this.category = category;
+
+		this.id = UUID.randomUUID();
+		this.updateName(name);
+		this.updateYearOfProduction(yearOfProduction);
+		this.updateNumberOfSeats(numberOfSeats);
+		this.updateCategory(category);
 		this.brand = brand;
 	}
-	
-	public void addVariant(String name, Gearbox gearbox, FuelType fuelType, int power, int engineSize, Model model, Vehicle vehicle) throws InventoryDomainException {
-        Variant variant = new Variant(name, gearbox, fuelType, power, engineSize, model, vehicle);
+
+	public void addVariant(
+			String name,
+			Gearbox gearbox,
+			FuelType fuelType,
+			int power,
+			int engineSize) throws InventoryDomainException {
+        Variant variant = new Variant(name, gearbox, fuelType, power, engineSize, this);
         variants.add(variant);
     }
 
-	public void addVariant(Variant variant) {
+	public void addVariant(Variant variant) throws InventoryDomainException {
+		if (variant == null) {
+			throw new InventoryDomainException("Variant cannot be null.");
+		}
+
+		variant.updateModel(this);
 		variants.add(variant);
 	}
 	
     public void removeVariant(UUID id) throws InventoryDomainException {
-        Optional<Variant> variantToRemove = this.variants.stream()
-        		.filter(each -> each.equals(id))
-        		.findAny();
-        
-        if (!variantToRemove.isPresent()) {
-            throw new InventoryDomainException("Variant not found.");
-        }
+		boolean removed = variants.removeIf(v -> v.getId().equals(id));
 
-        variants.remove(variantToRemove.get());
+		if (!removed) {
+			throw new InventoryDomainException("Variant not found.");
+		}
     }
+
+	public void updateName(String newName) throws InventoryDomainException {
+		validateName(newName);
+		this.name = newName;
+	}
+
+	public void updateYearOfProduction(int yearOfProduction) throws InventoryDomainException {
+		validateProductionYear(yearOfProduction);
+		this.yearOfProduction = yearOfProduction;
+	}
+
+	public void updateNumberOfSeats(int numberOfSeats) throws InventoryDomainException {
+		validateSeats(numberOfSeats);
+		this.numberOfSeats = numberOfSeats;
+	}
+
+	public void updateCategory(Category category) {
+		this.category = category;
+	}
+
+	public void updateBrand(Brand brand) throws InventoryDomainException {
+		if (brand == null) {
+			throw new InventoryDomainException("Brand cannot be null.");
+		}
+
+		this.brand = brand;
+	}
+
+	private void validateName(String name) throws InventoryDomainException {
+		if (name == null || name.isBlank()) {
+			throw new InventoryDomainException("Model name cannot be empty.");
+		}
+	}
+
+	private void validateProductionYear(int year) throws InventoryDomainException {
+		if (year < 1900 || year > Year.now(ZoneOffset.UTC).getValue() + 1) {
+			throw new InventoryDomainException("Invalid production year: " + year);
+		}
+	}
+
+	private void validateSeats(int seats) throws InventoryDomainException {
+		if (seats <= 0) {
+			throw new InventoryDomainException("Number of seats must be at least 1.");
+		}
+	}
 }

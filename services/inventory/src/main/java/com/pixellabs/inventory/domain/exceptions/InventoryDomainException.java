@@ -1,11 +1,14 @@
 package com.pixellabs.inventory.domain.exceptions;
 
+import java.io.Serial;
+
 public class InventoryDomainException extends Exception {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	@Serial
+    private static final long serialVersionUID = 1L;
 
 	public InventoryDomainException() {
 		super();

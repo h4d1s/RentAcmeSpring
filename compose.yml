@@ -1,7 +1,7 @@
 services:
   rabbitmq:
-    container_name: rabbitmq
     image: rabbitmq:management
+    container_name: rabbitmq
     env_file: ./.env
     environment:
       RABBITMQ_DEFAULT_USER: $RABBITMQ_USER
@@ -12,14 +12,74 @@ services:
     networks: 
       - rentacme_network
 
+  redis:
+    image: redis
+    container_name: redis
+    env_file: ./.env
+    command: redis-server --requirepass "${REDIS_PASS}"
+    ports:
+      - "6379:6379"
+    networks:
+      - rentacme_network
+
+  keycloak-db:
+    image: postgres
+    container_name: keycloak-db
+    env_file: ./.env
+    environment:
+      POSTGRES_DB: $KEYCLOAK_DB
+      POSTGRES_USER: $KEYCLOAK_DB_USER
+      POSTGRES_PASSWORD: $KEYCLOAK_DB_PASSWORD
+    ports:
+      - "5200:5432"
+    networks:
+      - rentacme_network
+
+  keycloak:
+    image: ${CONTAINER_REGISTRY-}keycloak
+    build:
+      context: .
+      dockerfile: ./configs/keycloak/Dockerfile
+    container_name: keycloak
+    env_file: ./.env
+    environment:
+      - KC_HOSTNAME=http://auth.rent-acme.local:8080
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://keycloak-db:5432/${KEYCLOAK_DB}
+      - KC_DB_USERNAME=${KEYCLOAK_DB_USER}
+      - KC_DB_PASSWORD=${KEYCLOAK_DB_PASSWORD}
+      - KC_BOOTSTRAP_ADMIN_USERNAME=${KEYCLOAK_ADMIN_USERNAME}
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}
+      - KEYCLOAK_RENT_ACME_ADMIN_PASSWORD=${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}
+      - KK_TO_RMQ_URL=${RABBITMQ_HOST}
+      - KK_TO_RMQ_PORT=${RABBITMQ_PORT}
+      - KK_TO_RMQ_USERNAME=${RABBITMQ_USER}
+      - KK_TO_RMQ_PASSWORD=${RABBITMQ_PASS}
+      - KK_TO_RMQ_EXCHANGE=amq.topic
+      - KK_TO_RMQ_VHOST=/
+      - KEYCLOAK_BACKEND_SECRET=${KEYCLOAK_BACKEND_SECRET}
+    ports:
+      - 8080:8080
+    command:
+      - start-dev
+      - --import-realm
+    volumes:
+      - ./configs/keycloak/realm-rent-acme.json:/opt/keycloak/data/import/realm-rent-acme.json
+      - ./configs/keycloak/keycloak-to-rabbit-3.0.5.jar:/opt/keycloak/providers/keycloak-to-rabbit-3.0.5.jar
+    depends_on:
+      - keycloak-db
+    networks:
+      - rentacme_network
+
   gateway:
+    image: ${CONTAINER_REGISTRY-}gateway
     container_name: gateway
     build:
       context: ./
       dockerfile: ./gateways/gateway/Dockerfile
     ports:
-      - "5215:8080"
-      - "5216:8000" # Debug
+      - "5000:8080"
+      - "5001:8000" # Debug
     networks:
       - rentacme_network
 
@@ -37,7 +97,9 @@ services:
       - rentacme_network
 
   inventory-api:
+    image: ${CONTAINER_REGISTRY-}inventory-api
     container_name: inventory-api
+    env_file: ./.env
     build:
       context: ./
       dockerfile: ./services/inventory/Dockerfile
@@ -49,6 +111,9 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
+      REDIS_HOST: $REDIS_HOST
+      REDIS_PORT: $REDIS_PORT
+      REDIS_PASS: $REDIS_PASS
     ports:
       - "5225:8080"
       - "5226:8000" # Debug
@@ -58,20 +123,22 @@ services:
       - rentacme_network
 
   notification-api:
-      container_name: notification-api
-      build:
-        context: ./
-        dockerfile: ./services/notification/Dockerfile
-      environment:
-        RABBITMQ_HOST: $RABBITMQ_HOST
-        RABBITMQ_PORT: $RABBITMQ_PORT
-        RABBITMQ_USER: $RABBITMQ_USER
-        RABBITMQ_PASS: $RABBITMQ_PASS
-      ports:
-        - "5235:8080"
-        - "5236:8000" # Debug
-      networks: 
-        - rentacme_network
+    image: ${CONTAINER_REGISTRY-}notification-api
+    container_name: notification-api
+    env_file: ./.env
+    build:
+      context: ./
+      dockerfile: ./services/notification/Dockerfile
+    environment:
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_PORT: $RABBITMQ_PORT
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+    ports:
+      - "5235:8080"
+      - "5236:8000" # Debug
+    networks:
+      - rentacme_network
 
   reservation-db:
     container_name: reservation-db
@@ -87,7 +154,9 @@ services:
       - rentacme_network
 
   reservation-api:
+    image: ${CONTAINER_REGISTRY-}reservation-api
     container_name: reservation-api
+    env_file: ./.env
     build:
       context: ./
       dockerfile: ./services/reservation/Dockerfile
@@ -121,7 +190,9 @@ services:
       - rentacme_network
 
   user-api:
+    image: ${CONTAINER_REGISTRY-}user-api
     container_name: user-api
+    env_file: ./.env
     build:
       context: ./
       dockerfile: ./services/user/Dockerfile
@@ -142,7 +213,9 @@ services:
       - rentacme_network
 
   payment-api:
+    image: ${CONTAINER_REGISTRY-}payment-api
     container_name: payment-api
+    env_file: ./.env
     build:
       context: ./
       dockerfile: ./services/payment/Dockerfile
@@ -159,8 +232,8 @@ services:
       - rentacme_network
 
   state-machine-db:
-    container_name: state-machine-db
     image: postgres
+    container_name: state-machine-db
     env_file: ./.env
     ports:
       - "5270:5432"
@@ -172,7 +245,9 @@ services:
       - rentacme_network
 
   state-machine:
+    image: ${CONTAINER_REGISTRY-}saga-orchestration-statemachine
     container_name: state-machine
+    env_file: ./.env
     build:
       context: ./
       dockerfile: ./state-machines/state-machine/Dockerfile

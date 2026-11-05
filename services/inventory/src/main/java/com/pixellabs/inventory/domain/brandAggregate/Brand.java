@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.domain.brandAggregate;
 
-import java.util.Optional;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -9,59 +9,62 @@ import com.pixellabs.inventory.domain.exceptions.InventoryDomainException;
 import com.pixellabs.inventory.domain.modelAggregate.Category;
 import com.pixellabs.inventory.domain.modelAggregate.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Brand {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	private String name;
 	
 	@JsonIgnore
-	@OneToMany
-	private Set<Model> models;
+	@OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+	private final Set<Model> models = new HashSet<>();
 	
 	public Brand(String name) throws InventoryDomainException {
 		super();
-		
-		if(name.isEmpty()) {
-			throw new InventoryDomainException("Brand name cannot be empty.");
+
+		this.id = UUID.randomUUID();
+		this.updateName(name);
+	}
+	
+	public void addModel(Model model) throws InventoryDomainException {
+		if (model == null) {
+			throw new InventoryDomainException("Model cannot be null.");
 		}
-		
-		this.name = name;
-	}
-	
-	public void addModel(String name, int yearOfProduction, int numberOfSeats, Category category) throws InventoryDomainException {
-		Model model = new Model(name, yearOfProduction, numberOfSeats, category, this);
+
+		model.updateBrand(this);
 		models.add(model);
 	}
-	
-	public void addModel(Model model) {
-		models.add(model);
+
+	public void addModel(
+		String name,
+		int yearOfProduction,
+		int numberOfSeats,
+		Category category
+	) throws InventoryDomainException {
+		addModel(new Model(name, yearOfProduction, numberOfSeats, category, this));
 	}
 	
 	public void removeModel(UUID id) throws InventoryDomainException {
-		Optional<Model> modelToRemove = models.stream()
-				.filter(each -> each.equals(id))
-				.findAny();
-		
-        if (!modelToRemove.isPresent()) {
-            throw new InventoryDomainException("Model not found.");
-        }
+		boolean removed = models.removeIf(model -> model.getId().equals(id));
 
-        models.remove(modelToRemove.get());
+		if (!removed) {
+			throw new InventoryDomainException("Model not found.");
+		}
+	}
+
+	public void updateName(String newName) throws InventoryDomainException {
+		validateName(newName);
+		this.name = newName;
+	}
+
+	private void validateName(String name) throws InventoryDomainException {
+		if (name == null || name.isBlank()) {
+			throw new InventoryDomainException("The brand name cannot be empty.");
+		}
 	}
 }
