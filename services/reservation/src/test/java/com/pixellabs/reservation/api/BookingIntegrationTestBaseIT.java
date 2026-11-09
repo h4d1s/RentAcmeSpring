@@ -46,8 +46,25 @@ public abstract class BookingIntegrationTestBaseIT {
 
     @DynamicPropertySource
     static void rabbitmqProperties(DynamicPropertyRegistry registry) {
+        // PostgreSQL
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.driver-class-name",
+            () -> "org.postgresql.Driver");
+
+        // Redis
+        registry.add("spring.data.redis.host", redis::getHost);
+        registry.add("spring.data.redis.port",
+            () -> redis.getMappedPort(6379));
+        registry.add("spring.data.redis.password", () -> "");
+
+        // RabbitMQ
         registry.add("spring.rabbitmq.host", rabbitmq::getHost);
-        registry.add("spring.rabbitmq.port", () -> rabbitmq.getMappedPort(5672));
+        registry.add("spring.rabbitmq.port",
+            () -> rabbitmq.getMappedPort(5672));
+        registry.add("spring.rabbitmq.username", rabbitmq::getAdminUsername);
+        registry.add("spring.rabbitmq.password", rabbitmq::getAdminPassword);
     }
 
     @Autowired
