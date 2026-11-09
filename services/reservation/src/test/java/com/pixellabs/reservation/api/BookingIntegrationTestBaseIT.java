@@ -23,19 +23,19 @@ import java.util.UUID;
 public abstract class BookingIntegrationTestBaseIT {
     @Container
     protected static final PostgreSQLContainer<?> postgres =
-        new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"))
+        new PostgreSQLContainer<>(DockerImageName.parse("postgres:18-alpine"))
             .withDatabaseName("reservation_test_db")
             .withUsername("rent-acme")
             .withPassword("Passw0rd!");
 
     @Container
     protected static final GenericContainer<?> redis =
-        new GenericContainer<>(DockerImageName.parse("redis:7-alpine"))
+        new GenericContainer<>(DockerImageName.parse("redis:8-alpine"))
             .withExposedPorts(6379);
 
     @Container
     static RabbitMQContainer rabbitmq =
-        new RabbitMQContainer(DockerImageName.parse("rabbitmq:3-management"))
+        new RabbitMQContainer(DockerImageName.parse("rabbitmq:4-management"))
             .withExposedPorts(5672);
 
     @DynamicPropertySource
