@@ -27,14 +27,6 @@ import java.util.UUID;
 @SpringBootTest
 @AutoConfigureMockMvc
 public abstract class BookingIntegrationTestBaseIT {
-    static Properties properties = loadYamlProperties();
-
-    private static Properties loadYamlProperties() {
-        YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
-        factory.setResources(new ClassPathResource("application.yml"));
-        return factory.getObject();
-    }
-
     @Container
     protected static final PostgreSQLContainer<?> postgres =
         new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"))
@@ -63,19 +55,10 @@ public abstract class BookingIntegrationTestBaseIT {
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
-        // PostgreSQL
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-        registry.add("spring.datasource.driver-class-name",
-            () -> "org.postgresql.Driver");
-
         // Redis
-        String password = properties.getProperty("spring.data.redis.password");
         registry.add("spring.data.redis.host", redis::getHost);
         registry.add("spring.data.redis.port",
             () -> redis.getMappedPort(6379));
-        registry.add("spring.data.redis.password", () -> password);
     }
 
     @BeforeEach
