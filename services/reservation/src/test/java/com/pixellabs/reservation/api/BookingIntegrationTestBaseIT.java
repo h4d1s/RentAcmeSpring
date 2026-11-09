@@ -39,7 +39,7 @@ public abstract class BookingIntegrationTestBaseIT {
             .withExposedPorts(5672);
 
     @DynamicPropertySource
-    static void rabbitmqProperties(DynamicPropertyRegistry registry) {
+    static void overrideProperties(DynamicPropertyRegistry registry) {
         // PostgreSQL
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
