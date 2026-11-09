@@ -1,14 +1,7 @@
 package com.pixellabs.reservation.api;
 
-import com.pixellabs.reservation.domain.bookingAggregate.Booking;
-import com.pixellabs.reservation.domain.bookingAggregate.BookingRepository;
-import com.pixellabs.reservation.domain.exceptions.ReservationDomainException;
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -21,7 +14,6 @@ import org.testcontainers.rabbitmq.RabbitMQContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
-import java.util.Properties;
 import java.util.UUID;
 
 @Testcontainers
@@ -52,8 +44,6 @@ public abstract class BookingIntegrationTestBaseIT {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
-        registry.add("spring.datasource.driver-class-name",
-            () -> "org.postgresql.Driver");
 
         // Redis
         registry.add("spring.data.redis.host", redis::getHost);
@@ -67,34 +57,5 @@ public abstract class BookingIntegrationTestBaseIT {
             () -> rabbitmq.getMappedPort(5672));
         registry.add("spring.rabbitmq.username", rabbitmq::getAdminUsername);
         registry.add("spring.rabbitmq.password", rabbitmq::getAdminPassword);
-    }
-
-    @Autowired
-    protected BookingRepository bookingRepository;
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        // Redis
-        registry.add("spring.data.redis.host", redis::getHost);
-        registry.add("spring.data.redis.port",
-            () -> redis.getMappedPort(6379));
-    }
-
-    @BeforeEach
-    void cleanDatabase() {
-        bookingRepository.deleteAll();
-    }
-
-    protected UUID seedBooking() throws ReservationDomainException {
-        LocalDateTime pickupDate = LocalDateTime.now().plusDays(1);
-        LocalDateTime returnDate = pickupDate.plusDays(3);
-
-        Booking booking = new Booking(
-            UUID.randomUUID(),
-            UUID.randomUUID(),
-            pickupDate,
-            returnDate
-        );
-        return bookingRepository.save(booking).getId();
     }
 }
