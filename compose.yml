@@ -65,7 +65,6 @@ services:
       - --import-realm
     volumes:
       - ./configs/keycloak/realm-rent-acme.json:/opt/keycloak/data/import/realm-rent-acme.json
-      - ./configs/keycloak/keycloak-to-rabbit-3.0.5.jar:/opt/keycloak/providers/keycloak-to-rabbit-3.0.5.jar
     depends_on:
       - keycloak-db
     networks:
