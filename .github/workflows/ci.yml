@@ -31,3 +31,6 @@ jobs:
 
       - name: Build and Test
         run: ./mvnw clean verify
+        env:
+          KEYCLOAK_ISSUER_URI: ${{ vars.KEYCLOAK_ISSUER_URI }}
+          KEYCLOAK_JWK_SET_URI: ${{ vars.KEYCLOAK_JWK_SET_URI }}
