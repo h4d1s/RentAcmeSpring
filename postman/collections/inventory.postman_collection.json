@@ -83,7 +83,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:5000"
+      "value": "http://api.rent-acme.local:5000"
     },
     {
       "key": "version",
@@ -120,7 +120,7 @@
             "method": "GET",
             "auth": { "type": "noauth" },
             "header": [],
-            "url": "{{baseUrl}}/api/{{version}}/brands"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/brands"
           }
         },
         {
@@ -129,7 +129,7 @@
             "method": "GET",
             "auth": { "type": "noauth" },
             "header": [],
-            "url": "{{baseUrl}}/api/{{version}}/brands/{{brandId}}"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/brands/{{brandId}}"
           }
         },
         {
@@ -159,7 +159,7 @@
               "raw": "{\n  \"name\": \"Updated Brand\"\n}",
               "options": { "raw": { "language": "json" } }
             },
-            "url": "{{baseUrl}}/api/{{version}}/brands/{{brandId}}"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/brands/{{brandId}}"
           }
         },
         {
@@ -168,7 +168,7 @@
             "method": "DELETE",
             "header": [
             ],
-            "url": "{{baseUrl}}/api/{{version}}/brands/{{brandId}}"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/brands/{{brandId}}"
           }
         }
       ]
@@ -181,7 +181,7 @@
           "request": {
             "method": "GET",
             "auth": { "type": "noauth" },
-            "url": "{{baseUrl}}/api/{{version}}/models"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/models"
           }
         },
         {
@@ -189,7 +189,7 @@
           "request": {
             "method": "GET",
             "auth": { "type": "noauth" },
-            "url": "{{baseUrl}}/api/{{version}}/models/{{modelId}}"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/models/{{modelId}}"
           }
         },
         {
@@ -204,7 +204,7 @@
               "raw": "{\n  \"name\": \"Example Model\",\n  \"brandId\": \"{{brandId}}\"\n}",
               "options": { "raw": { "language": "json" } }
             },
-            "url": "{{baseUrl}}/api/{{version}}/models"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/models"
           }
         }
       ]
@@ -217,7 +217,7 @@
           "request": {
             "method": "GET",
             "auth": { "type": "noauth" },
-            "url": "{{baseUrl}}/api/{{version}}/variants"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/variants"
           }
         },
         {
@@ -225,7 +225,7 @@
           "request": {
             "method": "GET",
             "auth": { "type": "noauth" },
-            "url": "{{baseUrl}}/api/{{version}}/variants/{{variantId}}"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/variants/{{variantId}}"
           }
         },
         {
@@ -240,7 +240,7 @@
               "raw": "{\n  \"name\": \"Example Variant\",\n  \"modelId\": \"{{modelId}}\"\n}",
               "options": { "raw": { "language": "json" } }
             },
-            "url": "{{baseUrl}}/api/{{version}}/variants"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/variants"
           }
         },
         {
@@ -255,7 +255,7 @@
               "raw": "{\n  \"name\": \"Updated Variant\"\n}",
               "options": { "raw": { "language": "json" } }
             },
-            "url": "{{baseUrl}}/api/{{version}}/variants/{{variantId}}"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/variants/{{variantId}}"
           }
         },
         {
@@ -264,8 +264,216 @@
             "method": "DELETE",
             "header": [
             ],
-            "url": "{{baseUrl}}/api/{{version}}/variants/{{variantId}}"
+            "url": "{{baseUrl}}/api/{{version}}/inventories/variants/{{variantId}}"
           }
+        }
+      ]
+    },
+    {
+      "name": "Vehicles",
+      "item": [
+        {
+          "name": "Get All Vehicles",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/inventories/vehicles?page=3&pageSize=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "inventories",
+                "vehicles"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "3"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Vehicles",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/inventories/vehicles/search?gearbox=AUTOMATIC&category=SUV&page=1&pageSize=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "inventories",
+                "vehicles",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "gearbox",
+                  "value": "AUTOMATIC"
+                },
+                {
+                  "key": "category",
+                  "value": "SUV"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Vehicle",
+          "request": {
+            "method": "POST",
+            "header": [
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rentalPricePerDay\": 150.00,\n  \"variantId\": \"{{variantId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/inventories/vehicles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "inventories",
+                "vehicles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Vehicle by ID",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/inventories/vehicles/:vehicleId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "inventories",
+                "vehicles",
+                ":vehicleId"
+              ],
+              "variable": [
+                {
+                  "key": "vehicleId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Vehicle",
+          "request": {
+            "method": "PUT",
+            "header": [
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{vehicleId}}\",\n  \"rentalPricePerDay\": 175.50,\n  \"variantId\": \"{{variantId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/inventories/vehicles/:vehicleId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "inventories",
+                "vehicles",
+                ":vehicleId"
+              ],
+              "variable": [
+                {
+                  "key": "vehicleId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Vehicle",
+          "request": {
+            "method": "DELETE",
+            "header": [
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/inventories/vehicles/:vehicleId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "inventories",
+                "vehicles",
+                ":vehicleId"
+              ],
+              "variable": [
+                {
+                  "key": "vehicleId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }

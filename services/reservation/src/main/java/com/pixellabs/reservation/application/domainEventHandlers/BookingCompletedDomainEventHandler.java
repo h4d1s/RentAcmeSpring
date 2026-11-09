@@ -1,6 +1,7 @@
 package com.pixellabs.reservation.application.domainEventHandlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -8,17 +9,11 @@ import com.pixellabs.eventbus.BusConstants;
 import com.pixellabs.eventbus.events.BookingCompletedIntegrationEvent;
 import com.pixellabs.reservation.domain.bookingAggregate.Booking;
 import com.pixellabs.reservation.domain.bookingAggregate.events.BookingCompletedDomainEvent;
-import com.pixellabs.reservation.infrastructure.rabbitmq.IntegrationEventService;
 
 @Component
+@RequiredArgsConstructor
 public class BookingCompletedDomainEventHandler {
-	@Autowired
-	private IntegrationEventService service;
-	
-	public BookingCompletedDomainEventHandler(IntegrationEventService service) {
-		super();
-		this.service = service;
-	}
+	private final RabbitTemplate rabbitTemplate;
 
 	@EventListener
     public void handle(BookingCompletedDomainEvent event) {
@@ -28,6 +23,10 @@ public class BookingCompletedDomainEventHandler {
         		booking.getVehicleId(),
         		booking.getPickupDate(),
         		booking.getReturnDate());
-        service.publishEvent(integrationEvent, BusConstants.EXCHANGE_BOOKING, BusConstants.ROUTING_KEY_BOOKING_COMPLETED);
+		rabbitTemplate.convertAndSend(
+			BusConstants.EXCHANGE_BOOKING,
+			BusConstants.ROUTING_KEY_BOOKING_COMPLETED,
+			integrationEvent
+		);
     }
 }

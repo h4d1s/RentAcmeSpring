@@ -1,7 +1,7 @@
 package com.pixellabs.inventory.application.useCases.brands.commands.deleteBrand;
 
 import com.pixellabs.inventory.domain.brandAggregate.Brand;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DeleteBrandHandler {
 	private final BrandRepository brandRepository;
-    private final ApplicationEventPublisher eventPublisher;
+	private final ApplicationEventPublisher eventPublisher;
 
 	@CacheEvict(value = "brands", allEntries = true)
 	@Transactional

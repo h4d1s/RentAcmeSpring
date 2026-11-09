@@ -12,14 +12,14 @@
 
     <modules>
         <module>libs/eventbus</module>
-        <module>libs/contracts</module>
-        <module>services/gateways/gateway</module>
+        <module>libs/inventory-grpc</module>
+        <module>services/gateway</module>
         <module>services/inventory</module>
         <module>services/notification</module>
         <module>services/payment</module>
         <module>services/reservation</module>
         <module>services/user</module>
-        <module>services/state-machines/state-machine</module>
+        <module>services/state-machine</module>
     </modules>
 
     <properties>
@@ -33,6 +33,7 @@
         <rabbitmq-client.version>5.37.0</rabbitmq-client.version>
         <asm.version>9.11.1</asm.version>
         <logback.version>1.6.6</logback.version>
+        <testcontainers.version>1.21.3</testcontainers.version>
     </properties>
 
     <dependencyManagement>
@@ -84,6 +85,13 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

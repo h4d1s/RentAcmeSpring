@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.models.commands.deleteModel;
 
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import com.pixellabs.inventory.domain.modelAggregate.Model;
 import lombok.RequiredArgsConstructor;
 

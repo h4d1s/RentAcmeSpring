@@ -12,7 +12,7 @@ import com.pixellabs.inventory.application.useCases.vehicles.queries.getVehicle.
 import com.pixellabs.inventory.application.useCases.vehicles.queries.getVehicleList.GetVehicleListQuery;
 import com.pixellabs.inventory.application.useCases.vehicles.queries.searchVehicles.SearchVehiclesHandler;
 import com.pixellabs.inventory.application.useCases.vehicles.queries.searchVehicles.SearchVehiclesQuery;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;

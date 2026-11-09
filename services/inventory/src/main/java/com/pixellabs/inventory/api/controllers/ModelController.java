@@ -8,7 +8,7 @@ import com.pixellabs.inventory.application.useCases.models.commands.deleteModel.
 import com.pixellabs.inventory.application.useCases.models.commands.updateModel.UpdateModelCommand;
 import com.pixellabs.inventory.application.useCases.models.queries.getModel.GetModelQuery;
 import com.pixellabs.inventory.application.useCases.models.queries.getModelList.GetModelListQuery;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;

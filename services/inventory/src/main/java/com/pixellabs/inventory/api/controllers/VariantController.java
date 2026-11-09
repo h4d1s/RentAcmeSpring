@@ -8,7 +8,7 @@ import com.pixellabs.inventory.application.useCases.variants.commands.deleteVari
 import com.pixellabs.inventory.application.useCases.variants.commands.updateVariant.UpdateVariantCommand;
 import com.pixellabs.inventory.application.useCases.variants.queries.getVariant.GetVariantQuery;
 import com.pixellabs.inventory.application.useCases.variants.queries.getVariantList.GetVariantListQuery;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;

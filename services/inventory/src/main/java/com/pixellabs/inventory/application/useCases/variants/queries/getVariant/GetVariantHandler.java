@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.variants.queries.getVariant;
 
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import com.pixellabs.inventory.domain.variantAggregate.Variant;

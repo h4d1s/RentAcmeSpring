@@ -1,9 +1,9 @@
 package com.pixellabs.inventory.infrastructure.grpc;
 
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import com.pixellabs.inventory.domain.vehicleAggregate.Vehicle;
 import com.pixellabs.inventory.domain.vehicleAggregate.VehicleRepository;
-import com.pixellabs.libs.contracts.grpc.*;
+import com.pixellabs.inventory.grpc.*;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;

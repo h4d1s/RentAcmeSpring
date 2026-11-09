@@ -14,10 +14,11 @@ RUN --mount=type=cache,target=/root/.m2 \
 
 FROM eclipse-temurin:21-jre-alpine
 
-ARG JAR_FILE=/app/services/inventory/target/*SNAPSHOT.jar
+ARG JAR_FILE=/app/services/inventory/target/*.jar
 COPY --from=maven ${JAR_FILE} app.jar
 
 EXPOSE 8000
 EXPOSE 8080
+EXPOSE 9090
 
 ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000","-jar","/app.jar"]

@@ -1,7 +1,7 @@
 package com.pixellabs.inventory.application.useCases.variants.commands.createVariant;
 
 import com.pixellabs.inventory.domain.exceptions.InventoryDomainException;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import com.pixellabs.inventory.domain.modelAggregate.Model;
 import com.pixellabs.inventory.domain.modelAggregate.ModelRepository;
 import jakarta.validation.ConstraintViolation;
