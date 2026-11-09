@@ -242,7 +242,7 @@ services:
     image: ${CONTAINER_REGISTRY-}saga-orchestration-statemachine
     container_name: state-machine
     build:
-      context: .
+      context: ./
       dockerfile: ./services/state-machine/Dockerfile
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://state-machine-db:5432/state_machine
