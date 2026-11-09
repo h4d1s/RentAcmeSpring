@@ -1,6 +1,6 @@
 package com.pixellabs.eventbus.events;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.pixellabs.eventbus.BaseIntegrationEvent;
@@ -19,6 +19,6 @@ import lombok.Setter;
 public class BookingCompletedIntegrationEvent extends BaseIntegrationEvent {
 	private UUID bookingId;
 	private UUID vehicleId;
-	private LocalDate pickupDate;
-	private LocalDate returnDate;
+	private LocalDateTime pickupDate;
+	private LocalDateTime returnDate;
 }

@@ -2,13 +2,14 @@ name: CI
 
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
   push:
     branches:
       - "feature/**"
+      - "refactor/**"
       - "fix/**"
       - "chore/**"
-      - "master"
+      - "main"
 
 permissions:
   contents: read

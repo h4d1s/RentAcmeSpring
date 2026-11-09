@@ -2,7 +2,7 @@ package com.pixellabs.inventory.application.useCases.models.commands.createModel
 
 import com.pixellabs.inventory.domain.brandAggregate.Brand;
 import com.pixellabs.inventory.domain.brandAggregate.BrandRepository;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;

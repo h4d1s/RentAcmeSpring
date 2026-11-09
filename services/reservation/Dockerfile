@@ -1,5 +1,7 @@
 FROM maven:3.9-eclipse-temurin-21-alpine AS maven
 
+RUN apk add --no-cache gcompat
+
 WORKDIR /app
 
 COPY . .
@@ -12,7 +14,7 @@ RUN --mount=type=cache,target=/root/.m2 \
 
 FROM eclipse-temurin:21-jre-alpine
 
-ARG JAR_FILE=/app/services/reservation/target/*SNAPSHOT.jar
+ARG JAR_FILE=/app/services/reservation/target/*.jar
 COPY --from=maven ${JAR_FILE} app.jar
 
 EXPOSE 8000

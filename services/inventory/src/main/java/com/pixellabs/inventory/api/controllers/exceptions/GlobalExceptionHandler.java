@@ -1,7 +1,7 @@
 package com.pixellabs.inventory.api.controllers.exceptions;
 
-import com.pixellabs.inventory.domain.exceptions.BadRequestException;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.BadRequestException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
@@ -35,7 +35,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ProblemDetail> handleNotFound(
             NotFoundException ex) {
-
         log.warn("Resource not found: {}", ex.getMessage());
 
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(
@@ -51,7 +50,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> handleUnexpectedException(
             Exception ex) {
-
         log.error("Unexpected application error", ex);
 
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(
@@ -67,7 +65,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ProblemDetail> handleBadRequest(
             BadRequestException ex) {
-
         log.warn("Bad request: {}", ex.getMessage());
 
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(

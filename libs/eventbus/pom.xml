@@ -4,13 +4,13 @@
   <parent>
     <groupId>com.pixellabs</groupId>
     <artifactId>rent-acme</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <artifactId>libs-eventbus</artifactId>
+  <artifactId>eventbus</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>libs-eventbus</name>
+  <name>eventbus</name>
   <description>Event bus shared library</description>
 
   <dependencies>

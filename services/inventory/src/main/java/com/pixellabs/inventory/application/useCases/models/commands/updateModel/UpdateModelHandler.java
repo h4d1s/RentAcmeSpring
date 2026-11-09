@@ -3,7 +3,7 @@ package com.pixellabs.inventory.application.useCases.models.commands.updateModel
 import java.util.Set;
 import java.util.UUID;
 
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;

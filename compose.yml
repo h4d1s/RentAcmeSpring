@@ -50,7 +50,6 @@ services:
       - KC_DB_PASSWORD=${KEYCLOAK_DB_PASSWORD}
       - KC_BOOTSTRAP_ADMIN_USERNAME=${KEYCLOAK_ADMIN_USERNAME}
       - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}
-      - KEYCLOAK_RENT_ACME_ADMIN_PASSWORD=${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}
       - KK_TO_RMQ_URL=${RABBITMQ_HOST}
       - KK_TO_RMQ_PORT=${RABBITMQ_PORT}
       - KK_TO_RMQ_USERNAME=${RABBITMQ_USER}
@@ -58,6 +57,7 @@ services:
       - KK_TO_RMQ_EXCHANGE=amq.topic
       - KK_TO_RMQ_VHOST=/
       - KEYCLOAK_BACKEND_SECRET=${KEYCLOAK_BACKEND_SECRET}
+      - KEYCLOAK_RENT_ACME_ADMIN_PASSWORD=${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}
     ports:
       - 8080:8080
     command:
@@ -76,7 +76,7 @@ services:
     container_name: gateway
     build:
       context: ./
-      dockerfile: ./gateways/gateway/Dockerfile
+      dockerfile: ./services/gateway/Dockerfile
     ports:
       - "5000:8080"
       - "5001:8000" # Debug
@@ -114,9 +114,12 @@ services:
       REDIS_HOST: $REDIS_HOST
       REDIS_PORT: $REDIS_PORT
       REDIS_PASS: $REDIS_PASS
+      KEYCLOAK_ISSUER_URI: $KEYCLOAK_ISSUER_URI
+      KEYCLOAK_JWK_SET_URI: $KEYCLOAK_JWK_SET_URI
     ports:
       - "5225:8080"
       - "5226:8000" # Debug
+      - "9090:9090" # grpc
     depends_on:
       - inventory-db
     networks: 
@@ -168,6 +171,11 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
+      REDIS_HOST: $REDIS_HOST
+      REDIS_PORT: $REDIS_PORT
+      REDIS_PASS: $REDIS_PASS
+      KEYCLOAK_ISSUER_URI: $KEYCLOAK_ISSUER_URI
+      KEYCLOAK_JWK_SET_URI: $KEYCLOAK_JWK_SET_URI
     ports:
       - "5245:8080"
       - "5246:8000" # Debug
@@ -250,7 +258,7 @@ services:
     env_file: ./.env
     build:
       context: ./
-      dockerfile: ./state-machines/state-machine/Dockerfile
+      dockerfile: ./services/state-machine/Dockerfile
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://state-machine-db:5432/state_machine
       SPRING_DATASOURCE_USERNAME: $POSTGRES_USER

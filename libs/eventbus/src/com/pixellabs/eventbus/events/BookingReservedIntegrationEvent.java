@@ -1,7 +1,7 @@
 package com.pixellabs.eventbus.events;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.pixellabs.eventbus.BaseIntegrationEvent;
@@ -21,7 +21,7 @@ public class BookingReservedIntegrationEvent extends BaseIntegrationEvent {
 	private UUID bookingId;
 	private UUID userId;
 	private UUID vehicleId;
-	private LocalDate pickupDate;
-	private LocalDate returnDate;
+	private LocalDateTime pickupDate;
+	private LocalDateTime returnDate;
 	private BigDecimal price;
 }

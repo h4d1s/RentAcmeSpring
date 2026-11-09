@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.variants.commands.deleteVariant;
 
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import com.pixellabs.inventory.domain.variantAggregate.Variant;
 import lombok.RequiredArgsConstructor;
 

@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.vehicles.commands.deleteVehicle;
 
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import com.pixellabs.inventory.domain.vehicleAggregate.Vehicle;
 import lombok.RequiredArgsConstructor;
 

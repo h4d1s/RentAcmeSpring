@@ -3,8 +3,8 @@ spring:
     name: inventory
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
       password: ${REDIS_PASS}
       timeout: 2s
   cache:
@@ -17,8 +17,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://auth.rent-acme.local:8080/realms/rent-acme}
-          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://keycloak:8080/realms/rent-acme/protocol/openid-connect/certs}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI}
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}
@@ -39,12 +39,6 @@ spring:
 
 server:
   port: 8080
-
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
-    org.springframework.security.oauth2.jwt: DEBUG
 
 management:
   endpoints:

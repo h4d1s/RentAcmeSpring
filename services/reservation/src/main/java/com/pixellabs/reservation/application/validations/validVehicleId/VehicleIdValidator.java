@@ -2,27 +2,23 @@ package com.pixellabs.reservation.application.validations.validVehicleId;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pixellabs.reservation.infrastructure.grpc.InventoryGrpcClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import com.pixellabs.reservation.infrastructure.services.inventory.InventoryService;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 @Component
+@RequiredArgsConstructor
 public class VehicleIdValidator implements ConstraintValidator<ValidVehicleId, UUID> {
-
-	@Autowired
-	public InventoryService inventoryService;
+	public final InventoryGrpcClient inventoryGrpcClient;
 	
 	@Override
 	public boolean isValid(UUID vehicleId, ConstraintValidatorContext context) {		
 		if (vehicleId == null) {
-			return false;
+			return true;
 	    }
 		
-		return inventoryService.checkVehicle(vehicleId);
+		return inventoryGrpcClient.checkVehicle(vehicleId.toString());
 	}
-
 }

@@ -3,7 +3,7 @@ package com.pixellabs.inventory.infrastructure.messaging.eventHandling;
 import com.pixellabs.eventbus.commands.LockVehicleCommand;
 import com.pixellabs.eventbus.events.VehicleLockedIntegrationEvent;
 import com.pixellabs.eventbus.events.VehicleUnavailableIntegrationEvent;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import com.pixellabs.inventory.domain.vehicleAggregate.VehicleRepository;
 import com.pixellabs.inventory.domain.vehicleAggregate.VehicleStatus;
 

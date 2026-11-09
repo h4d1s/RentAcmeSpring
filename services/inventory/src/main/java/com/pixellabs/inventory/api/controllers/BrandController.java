@@ -8,7 +8,7 @@ import com.pixellabs.inventory.application.useCases.brands.commands.deleteBrand.
 import com.pixellabs.inventory.application.useCases.brands.commands.updateBrand.UpdateBrandCommand;
 import com.pixellabs.inventory.application.useCases.brands.queries.getBrand.GetBrandQuery;
 import com.pixellabs.inventory.application.useCases.brands.queries.getBrandList.GetBrandListQuery;
-import com.pixellabs.inventory.domain.exceptions.NotFoundException;
+import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
