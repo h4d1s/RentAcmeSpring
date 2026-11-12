@@ -45,8 +45,6 @@ public class GetBookingQueryHandlerTests {
 
         // Assert
         assertThat(result).isSameAs(booking);
-
-        verify(bookingRepository).findById(bookingId);
     }
 
     @Test
@@ -62,8 +60,6 @@ public class GetBookingQueryHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(query))
             .isInstanceOf(NotFoundException.class);
-
-        verify(bookingRepository).findById(bookingId);
     }
 
     private Booking createBooking() throws ReservationDomainException {

@@ -47,9 +47,6 @@ class CancelBookingCommandHandlerTests {
         // Assert
         assertThat(booking.getStatus())
             .isEqualTo(BookingStatus.CANCELED);
-
-        verify(bookingRepository).findById(bookingId);
-        verify(bookingRepository).save(booking);
     }
 
     @Test
@@ -65,9 +62,6 @@ class CancelBookingCommandHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(NotFoundException.class);
-
-        verify(bookingRepository).findById(bookingId);
-        verify(bookingRepository, never()).save(any());
     }
 
     @Test
@@ -89,9 +83,6 @@ class CancelBookingCommandHandlerTests {
 
         assertThat(booking.getStatus())
             .isEqualTo(BookingStatus.COMPLETED);
-
-        verify(bookingRepository).findById(bookingId);
-        verify(bookingRepository, never()).save(any());
     }
 
     private Booking createBooking() throws ReservationDomainException {

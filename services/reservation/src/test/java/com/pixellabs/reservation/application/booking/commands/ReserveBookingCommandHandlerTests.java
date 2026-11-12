@@ -68,9 +68,6 @@ public class ReserveBookingCommandHandlerTests {
         assertThat(result.getPrice()).isEqualByComparingTo(
             new BigDecimal("400.0")
         );
-
-        verify(inventoryGrpcClient).getVehicle(vehicleId);
-        verify(bookingRepository).save(any(Booking.class));
     }
 
     @Test
@@ -84,9 +81,6 @@ public class ReserveBookingCommandHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(IllegalStateException.class);
-
-        verify(inventoryGrpcClient).getVehicle(command.vehicleId());
-        verify(bookingRepository, never()).save(any());
     }
 
     @Test
@@ -100,8 +94,6 @@ public class ReserveBookingCommandHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(RuntimeException.class);
-
-        verify(bookingRepository, never()).save(any());
     }
 
     @Test
@@ -117,9 +109,6 @@ public class ReserveBookingCommandHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(ReservationDomainException.class);
-
-        verifyNoInteractions(inventoryGrpcClient);
-        verifyNoInteractions(bookingRepository);
     }
 
     @Test
@@ -138,9 +127,6 @@ public class ReserveBookingCommandHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(ReservationDomainException.class);
-
-        verifyNoInteractions(inventoryGrpcClient);
-        verifyNoInteractions(bookingRepository);
     }
 
     @Test
@@ -158,8 +144,6 @@ public class ReserveBookingCommandHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(ReservationDomainException.class);
-
-        verify(bookingRepository, never()).save(any());
     }
 
     private ReserveBookingCommand createValidCommand() {

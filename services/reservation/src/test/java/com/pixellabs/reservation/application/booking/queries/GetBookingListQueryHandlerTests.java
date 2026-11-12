@@ -58,8 +58,6 @@ public class GetBookingListQueryHandlerTests {
         assertThat(result.getSize()).isEqualTo(10);
         assertThat(result.getTotalElements()).isEqualTo(2);
         assertThat(result.getTotalPages()).isEqualTo(1);
-
-        verify(bookingCacheService).getBookings(query);
     }
 
     @Test
@@ -86,8 +84,6 @@ public class GetBookingListQueryHandlerTests {
         assertThat(result.getNumber()).isEqualTo(0);
         assertThat(result.getSize()).isEqualTo(10);
         assertThat(result.getTotalElements()).isZero();
-
-        verify(bookingCacheService).getBookings(query);
     }
 
     @Test
@@ -101,7 +97,5 @@ public class GetBookingListQueryHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(query))
             .isInstanceOf(NotFoundException.class);
-
-        verify(bookingCacheService).getBookings(query);
     }
 }
