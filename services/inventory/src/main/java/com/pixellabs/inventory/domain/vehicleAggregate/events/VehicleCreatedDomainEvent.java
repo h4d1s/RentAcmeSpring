@@ -2,11 +2,6 @@ package com.pixellabs.inventory.domain.vehicleAggregate.events;
 
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
-public class VehicleCreatedDomainEvent {
-	private UUID id;
-}
+public record VehicleCreatedDomainEvent(
+	UUID id
+) {}

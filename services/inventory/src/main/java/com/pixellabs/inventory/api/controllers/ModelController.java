@@ -45,7 +45,7 @@ public class ModelController {
 	private final DeleteModelHandler deleteModelHandler;
 
 	@GetMapping
-	public Page<Model> getAllModels(
+	public Page<Model> getModels(
 			@Valid GetModelListQuery query)
 			throws NotFoundException {
 		return getListModelsHandler.handle(query);

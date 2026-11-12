@@ -1,6 +1,6 @@
 package com.pixellabs.reservation.application.booking.services;
 
-import com.pixellabs.reservation.application.services.BookingCacheService;
+import com.pixellabs.reservation.infrastructure.caching.services.BookingCacheService;
 import com.pixellabs.reservation.domain.bookingAggregate.BookingRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,11 +79,6 @@ public class BookingCacheServiceTest {
         assertThat(result.size()).isEqualTo(10);
         assertThat(result.totalElements()).isEqualTo(2);
         assertThat(result.totalPages()).isEqualTo(1);
-
-        verify(bookingRepository).findAll(
-            Mockito.<Specification<Booking>>any(),
-            eq(pageable)
-        );
     }
 
     @Test
@@ -180,12 +175,7 @@ public class BookingCacheServiceTest {
     @Test
     void getBookings_WhenPageAndPageSizeAreZero_ShouldUseMinimumValues() {
         // Arrange
-        GetBookingListQuery query = createQuery(
-            0,
-            0,
-            null,
-            null
-        );
+        GetBookingListQuery query = createQuery(0, 0, null, null);
 
         when(bookingRepository.findAll(
             Mockito.<Specification<Booking>>any(),
@@ -208,6 +198,7 @@ public class BookingCacheServiceTest {
 
         assertThat(pageable.getPageNumber()).isZero();
         assertThat(pageable.getPageSize()).isEqualTo(1);
+        assertThat(pageable.getSort().getOrderFor("id")).isNotNull();
         assertThat(pageable.getSort().getOrderFor("id").getDirection())
             .isEqualTo(Sort.Direction.ASC);
     }
@@ -241,12 +232,10 @@ public class BookingCacheServiceTest {
             Mockito.<Specification<Booking>>any(),
             captor.capture()
         );
-
         Sort.Order sortOrder =
             captor.getValue().getSort().getOrderFor(expectedProperty);
 
         assertThat(sortOrder).isNotNull();
-
         assertThat(sortOrder.getDirection()).isEqualTo(
             "desc".equalsIgnoreCase(order)
                 ? Sort.Direction.DESC

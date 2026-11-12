@@ -43,8 +43,7 @@ public class InventoryDbSeeder implements ApplicationRunner {
         try {
             log.info("Starting inventory database seeding.");
 
-            ClassPathResource resource =
-                    new ClassPathResource("json/brands.json");
+            ClassPathResource resource = new ClassPathResource("json/brands.json");
 
             BrandSourceEntry[] sourceBrands = objectMapper.readValue(
                 resource.getInputStream(),

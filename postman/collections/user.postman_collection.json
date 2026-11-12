@@ -1,0 +1,237 @@
+{
+  "info": {
+    "_postman_id": "8b71e4c2-9f35-46a0-bd82-3c6e1a5f907d",
+    "name": "RentAcme - User API",
+    "description": "User API requests through the RentAcme API Gateway.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "tokenType",
+        "value": "Bearer",
+        "type": "string"
+      },
+      {
+        "key": "token_id",
+        "value": "{{tokenId}}",
+        "type": "string"
+      },
+      {
+        "key": "expires_in",
+        "value": 300,
+        "type": "number"
+      },
+      {
+        "key": "clientId",
+        "value": "{{client_id}}",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "http://auth.rent-acme.local:8080/realms/rent-acme/protocol/openid-connect/token",
+        "type": "string"
+      },
+      {
+        "key": "authUrl",
+        "value": "http://auth.rent-acme.local:8080/realms/rent-acme/protocol/openid-connect/auth",
+        "type": "string"
+      },
+      {
+        "key": "tokenName",
+        "value": "Rent Acme Keycloak",
+        "type": "string"
+      },
+      {
+        "key": "addTokenTo",
+        "value": "header",
+        "type": "string"
+      },
+      {
+        "key": "scope",
+        "value": "openid profile email rent-acme-api-access",
+        "type": "string"
+      },
+      {
+        "key": "client_authentication",
+        "value": "header",
+        "type": "string"
+      },
+      {
+        "key": "redirect_uri",
+        "value": "https://oauth.pstmn.io/v1/callback",
+        "type": "string"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code_with_pkce",
+        "type": "string"
+      },
+      {
+        "key": "useBrowser",
+        "value": false,
+        "type": "boolean"
+      },
+      {
+        "key": "id",
+        "value": "collection/0610694b-319a-4827-8867-4103b8610d7f/8b869c13-2d81-4140-8bc0-bb99b4e29eae",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://auth.rent-acme.local:5000"
+    },
+    {
+      "key": "version",
+      "value": "v1"
+    },
+    {
+      "key": "client_id",
+      "value": "rent-acme-api"
+    }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/accounts/users?page=1&pageSize=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "accounts",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/accounts/users/:userId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "accounts",
+                "users",
+                ":userId"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"email\": \"customer2@rent-acme.com\",\n  \"userName\": \"jdoe\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phoneNumber\": \"+1234567890\",\n  \"street\": \"123 Main St\",\n  \"city\": \"Washington\",\n  \"postalCode\": \"12345\",\n  \"country\": \"USA\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/accounts/users/:userIdToUpdate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "accounts",
+                "users",
+                ":userIdToUpdate"
+              ],
+              "variable": [
+                {
+                  "key": "userIdToUpdate",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{version}}/accounts/users/:userIdToDelete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{version}}",
+                "accounts",
+                "users",
+                ":userIdToDelete"
+              ],
+              "variable": [
+                {
+                  "key": "userIdToDelete",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

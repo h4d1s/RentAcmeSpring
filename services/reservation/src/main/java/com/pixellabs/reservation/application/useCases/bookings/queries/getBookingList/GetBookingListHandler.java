@@ -1,6 +1,6 @@
 package com.pixellabs.reservation.application.useCases.bookings.queries.getBookingList;
 
-import com.pixellabs.reservation.application.services.BookingCacheService;
+import com.pixellabs.reservation.infrastructure.caching.services.BookingCacheService;
 import com.pixellabs.reservation.application.useCases.bookings.dtos.BookingPageCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;

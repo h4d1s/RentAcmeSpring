@@ -1,5 +1,7 @@
 package com.pixellabs.notification.infrastructure.rabbitmq;
 
+import com.pixellabs.eventbus.Exchanges;
+import com.pixellabs.eventbus.RoutingKeys;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -10,7 +12,7 @@ import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.pixellabs.eventbus.BusConstants;
+import com.pixellabs.eventbus.Queues;
 
 @Configuration
 public class RabbitMQConfig {
@@ -30,21 +32,21 @@ public class RabbitMQConfig {
 	// Exchanges
 	@Bean
     public DirectExchange bookingExchange() {
-        return new DirectExchange(BusConstants.EXCHANGE_BOOKING);
+        return new DirectExchange(Exchanges.BOOKING);
     }
 	
 	// Queues
 	@Bean
     public Queue bookingReservedQueue() {
-        return new Queue(BusConstants.QUEUE_BOOKING_RESERVED, true);
+        return new Queue(Queues.BOOKING_RESERVED, true);
     }
 	@Bean
     public Queue bookingCanceledQueue() {
-        return new Queue(BusConstants.QUEUE_BOOKING_CANCELED, true);
+        return new Queue(Queues.BOOKING_CANCELED, true);
     }
 	@Bean
     public Queue bookingCompletedQueue() {
-        return new Queue(BusConstants.QUEUE_BOOKING_COMPLETED, true);
+        return new Queue(Queues.BOOKING_COMPLETED, true);
     }
 	
 	// Bindings
@@ -52,18 +54,18 @@ public class RabbitMQConfig {
     public Binding bookingReservedBinding() {
         return BindingBuilder.bind(bookingReservedQueue())
                              .to(bookingExchange())
-                             .with(BusConstants.ROUTING_KEY_BOOKING_RESERVED);
+                             .with(RoutingKeys.BOOKING_RESERVED);
     }
     @Bean
     public Binding bookingCanceledBinding() {
         return BindingBuilder.bind(bookingCanceledQueue())
                              .to(bookingExchange())
-                             .with(BusConstants.ROUTING_KEY_BOOKING_CANCELED);
+                             .with(RoutingKeys.BOOKING_CANCELED);
     }
     @Bean
     public Binding bookingCompletedBinding() {
         return BindingBuilder.bind(bookingCompletedQueue())
                              .to(bookingExchange())
-                             .with(BusConstants.ROUTING_KEY_BOOKING_COMPLETED);
+                             .with(RoutingKeys.BOOKING_COMPLETED);
     }
 }

@@ -20,6 +20,16 @@ services:
     networks:
       - rentacme_network
 
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - rentacme_network
+
   keycloak-db:
     image: postgres
     container_name: keycloak-db
@@ -39,23 +49,25 @@ services:
       dockerfile: ./configs/keycloak/Dockerfile
     container_name: keycloak
     environment:
-      - KC_HOSTNAME=http://auth.rent-acme.local:8080
+      - KC_HOSTNAME=${KEYCLOAK_HOSTNAME}
       - KC_DB=postgres
       - KC_DB_URL=jdbc:postgresql://keycloak-db:5432/${KEYCLOAK_DB}
       - KC_DB_USERNAME=${KEYCLOAK_DB_USER}
       - KC_DB_PASSWORD=${KEYCLOAK_DB_PASSWORD}
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
       - KC_BOOTSTRAP_ADMIN_USERNAME=${KEYCLOAK_ADMIN_USERNAME}
       - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}
       - KK_TO_RMQ_URL=${RABBITMQ_HOST}
       - KK_TO_RMQ_PORT=${RABBITMQ_PORT}
       - KK_TO_RMQ_USERNAME=${RABBITMQ_USER}
       - KK_TO_RMQ_PASSWORD=${RABBITMQ_PASS}
-      - KK_TO_RMQ_EXCHANGE=amq.topic
+      - KK_TO_RMQ_EXCHANGE=${KEYCLOAK_RMQ_EXCHANGE}
       - KK_TO_RMQ_VHOST=/
-      - KEYCLOAK_BACKEND_SECRET=${KEYCLOAK_BACKEND_SECRET}
+      - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET}
       - KEYCLOAK_RENT_ACME_ADMIN_PASSWORD=${KEYCLOAK_RENT_ACME_ADMIN_PASSWORD}
     ports:
-      - 8080:8080
+      - "8080:8080"
     command:
       - start-dev
       - --import-realm
@@ -74,7 +86,7 @@ services:
       dockerfile: ./services/gateway/Dockerfile
     ports:
       - "5000:8080"
-      - "5001:8000" # Debug
+      - "5001:5005" # debug
     networks:
       - rentacme_network
 
@@ -111,7 +123,7 @@ services:
       KEYCLOAK_JWK_SET_URI: $KEYCLOAK_JWK_SET_URI
     ports:
       - "5225:8080"
-      - "5226:8000" # Debug
+      - "5226:5005" # debug
       - "9090:9090" # grpc
     depends_on:
       - inventory-db
@@ -131,7 +143,7 @@ services:
       RABBITMQ_PASS: $RABBITMQ_PASS
     ports:
       - "5235:8080"
-      - "5236:8000" # Debug
+      - "5236:5005" # debug
     networks:
       - rentacme_network
 
@@ -168,7 +180,7 @@ services:
       KEYCLOAK_JWK_SET_URI: $KEYCLOAK_JWK_SET_URI
     ports:
       - "5245:8080"
-      - "5246:8000" # Debug
+      - "5246:5005" # debug
     depends_on:
       - reservation-db
     networks: 
@@ -200,11 +212,20 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
+      REDIS_HOST: $REDIS_HOST
+      REDIS_PORT: $REDIS_PORT
+      REDIS_PASS: $REDIS_PASS
+      KEYCLOAK_ISSUER_URI: $KEYCLOAK_ISSUER_URI
+      KEYCLOAK_JWK_SET_URI: $KEYCLOAK_JWK_SET_URI
+      KEYCLOAK_CLIENT_ID: $KEYCLOAK_CLIENT_ID
+      KEYCLOAK_CLIENT_SECRET: $KEYCLOAK_CLIENT_SECRET
+      KEYCLOAK_TOKEN_URI: $KEYCLOAK_TOKEN_URI
     ports:
       - "5255:8080"
-      - "5256:8000" # Debug
+      - "5256:5005" # debug
     depends_on:
       - user-db
+      - keycloak
     networks: 
       - rentacme_network
 
@@ -222,7 +243,7 @@ services:
       STRIPE_API_KEY: $STRIPE_API_KEY
     ports:
       - "5265:8080"
-      - "5266:8000" # Debug
+      - "5266:5005" # debug
     networks: 
       - rentacme_network
 
@@ -254,7 +275,7 @@ services:
       RABBITMQ_PASS: $RABBITMQ_PASS
     ports:
       - "5275:8080"
-      - "5276:8000" # Debug
+      - "5276:5005" # debug
     depends_on:
       - state-machine-db
     networks: 

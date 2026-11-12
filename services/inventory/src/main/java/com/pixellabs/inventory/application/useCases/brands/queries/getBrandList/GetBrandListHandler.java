@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.brands.queries.getBrandList;
 
-import com.pixellabs.inventory.application.services.BrandCacheService;
+import com.pixellabs.inventory.infrastructure.caching.services.BrandCacheService;
 import com.pixellabs.inventory.application.useCases.brands.dtos.BrandPageCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;

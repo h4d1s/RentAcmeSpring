@@ -9,23 +9,23 @@ spring:
             - id: inventory-service
               uri: http://inventory-api:8080
               predicates:
-                - Path=/api/v1/inventories/**
+                - Path=/api/{version}/inventories/**
               filters:
-                - RewritePath=/api/v1/inventories/?(?<segment>.*), /api/v1/${segment}
+                - RewritePath=/api/(?<version>[^/]+)/inventories/?(?<segment>.*), /api/${version}/${segment}
 
             - id: reservation-service
               uri: http://reservation-api:8080
               predicates:
-                - Path=/api/v1/reservations/**
+                - Path=/api/{version}/reservations/**
               filters:
-                - RewritePath=/api/v1/reservations/?(?<segment>.*), /api/v1/${segment}
+                - RewritePath=/api/(?<version>[^/]+)/reservations/?(?<segment>.*), /api/${version}/${segment}
 
             - id: account-service
               uri: http://user-api:8080
               predicates:
-                - Path=/api/v1/accounts/**
+                - Path=/api/{version}/accounts/**
               filters:
-                - RewritePath=/api/v1/accounts/?(?<segment>.*), /api/v1/${segment}
+                - RewritePath=/api/(?<version>[^/]+)/accounts/?(?<segment>.*), /api/${version}/${segment}
 
 server:
   port: 8080

@@ -1,5 +1,7 @@
 FROM maven:3.9-eclipse-temurin-21-alpine AS maven
 
+RUN apk add --no-cache gcompat
+
 WORKDIR /app
 
 COPY . .
@@ -12,10 +14,10 @@ RUN --mount=type=cache,target=/root/.m2 \
 
 FROM eclipse-temurin:21-jre-alpine
 
-ARG JAR_FILE=/app/services/user/target/*SNAPSHOT.jar
+ARG JAR_FILE=/app/services/user/target/*.jar
 COPY --from=maven ${JAR_FILE} app.jar
 
-EXPOSE 8000
+EXPOSE 5005
 EXPOSE 8080
 
-ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000","-jar","/app.jar"]
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005","-jar","/app.jar"]

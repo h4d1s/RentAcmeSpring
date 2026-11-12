@@ -50,7 +50,7 @@ public class VehicleController {
 	private final DeleteVehicleHandler deleteVehicleHandler;
 
 	@GetMapping
-	public Page<VehicleResponse> getAllVehicles(@Valid GetVehicleListQuery query) {
+	public Page<VehicleResponse> getVehicles(@Valid GetVehicleListQuery query) {
 		return getVehicleListHandler.handle(query);
 	}
 

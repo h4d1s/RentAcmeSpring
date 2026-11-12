@@ -2,7 +2,7 @@ package com.pixellabs.reservation.application.validations.validVehicleId;
 
 import java.util.UUID;
 
-import com.pixellabs.reservation.infrastructure.grpc.InventoryGrpcClient;
+import com.pixellabs.reservation.infrastructure.grpc.inventory.InventoryGrpcClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import jakarta.validation.ConstraintValidator;
@@ -19,6 +19,6 @@ public class VehicleIdValidator implements ConstraintValidator<ValidVehicleId, U
 			return true;
 	    }
 		
-		return inventoryGrpcClient.checkVehicle(vehicleId.toString());
+		return inventoryGrpcClient.checkVehicle(vehicleId);
 	}
 }

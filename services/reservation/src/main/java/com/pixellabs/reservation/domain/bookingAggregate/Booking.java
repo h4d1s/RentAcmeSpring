@@ -48,7 +48,7 @@ public class Booking extends AbstractAggregateRoot<Booking> {
 		this.status = BookingStatus.RESERVED;
 		this.bookingDate = LocalDateTime.now();
 		
-		registerEvent(new BookingReservedDomainEvent(this, this));
+		registerEvent(new BookingReservedDomainEvent(this));
 	}
 
 	public void updateCompleteStatus() throws ReservationDomainException {

@@ -4,7 +4,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.BusConstants;
+import com.pixellabs.eventbus.Queues;
 import com.pixellabs.eventbus.events.BookingCanceledIntegrationEvent;
 import com.pixellabs.notification.appplication.model.BookingDTO;
 import com.pixellabs.notification.appplication.model.UserDTO;
@@ -24,12 +24,14 @@ public class BookingCanceledIntegrationEventConsumer {
     @Autowired
     public UserService userService;
 	
-	@RabbitListener(queues = BusConstants.QUEUE_BOOKING_RESERVED)
+	@RabbitListener(queues = Queues.BOOKING_RESERVED)
 	public void receive(BookingCanceledIntegrationEvent event) {
-		BookingDTO bookingDTO = bookingService.get(event.getBookingId());
+		BookingDTO bookingDTO = bookingService.get(event.bookingId());
 		UserDTO userDTO = userService.get(bookingDTO.getUserId());
 		
-		emailService.send(userDTO.getEmail(), "Booking canceled", "Booking canceled.");
+		emailService.send(
+            userDTO.getEmail(),
+            "Booking canceled",
+            "Booking canceled.");
 	}
-	
 }

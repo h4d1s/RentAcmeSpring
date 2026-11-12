@@ -19,11 +19,13 @@
     "LOGOUT",
     "CREATE_USER",
     "DELETE_USER",
-    "UPDATE_PROFILE"
+    "DELETE_ACCOUNT",
+    "UPDATE_PROFILE",
+    "UPDATE_EMAIL"
   ],
 
   "smtpServer": {
-    "host": "mailhog",
+    "host": "mailpit",
     "port": "1025",
     "from": "noreply@rent-acme.com",
     "fromDisplayName": "Rent Acme Auth",
@@ -122,6 +124,11 @@
         { "name": "user.update.any" },
         { "name": "user.delete.own" },
         { "name": "user.delete.any" }
+      ],
+      "realm-management": [
+        { "name": "view-users" },
+        { "name": "query-users" },
+        { "name": "manage-users" }
       ]
     }
   },
@@ -262,7 +269,53 @@
           "protocol": "openid-connect",
           "protocolMapper": "oidc-audience-mapper",
           "config": {
-            "included.client.audience": "rent-acme-api",
+            "included.client.audience": "rent-acme-aud",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "admin-client-roles",
+      "description": "Keycloak administration client roles",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "realm-management-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "config": {
+            "claim.name": "resource_access.realm-management.roles",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "false",
+            "multivalued": "true",
+            "usermodel.clientRoleMapping.clientId": "realm-management",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "realm-management-audience",
+      "description": "Audience for Keycloak Admin API access",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "realm-management-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "realm-management",
             "access.token.claim": "true",
             "id.token.claim": "false"
           }
@@ -305,18 +358,22 @@
       "realmRoles": [ "Customer" ]
     },
     {
-      "username": "service-account-rent-acme-api",
-      "serviceAccountClientId": "rent-acme-api",
+      "username": "service-account-rent-acme-service",
+      "serviceAccountClientId": "rent-acme-service",
       "enabled": true,
-      "realmRoles": [
-        "Admin"
-      ]
+      "clientRoles": {
+        "realm-management": [
+          "view-users",
+          "query-users",
+          "manage-users"
+        ]
+      }
     }
   ],
 
   "clients": [
     {
-      "clientId": "rent-acme-web",
+      "clientId": "rent-acme-api",
       "name": "Rent Acme Web Frontend",
       "protocol": "openid-connect",
       "publicClient": true,
@@ -338,20 +395,20 @@
       ]
     },
     {
-      "clientId": "rent-acme-api",
+      "clientId": "rent-acme-service",
       "name": "Rent Acme Backend Service",
       "protocol": "openid-connect",
       "enabled": true,
       "publicClient": false,
-      "bearerOnly": true,
       "serviceAccountsEnabled": true,
-      "fullScopeAllowed": false,
+      "fullScopeAllowed": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "${KEYCLOAK_BACKEND_SECRET:none}",
+      "secret": "${KEYCLOAK_CLIENT_SECRET:none}",
       "defaultClientScopes": [
         "email",
         "profile",
-        "rent-acme-api-access"
+        "admin-client-roles",
+        "realm-management-audience"
       ]
     }
   ]

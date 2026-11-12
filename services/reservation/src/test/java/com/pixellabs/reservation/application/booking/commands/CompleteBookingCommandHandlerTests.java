@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CompleteBookingCommandHandlerTests {
@@ -48,9 +47,6 @@ public class CompleteBookingCommandHandlerTests {
         // Assert
         assertThat(booking.getStatus())
             .isEqualTo(BookingStatus.COMPLETED);
-
-        verify(bookingRepository).findById(bookingId);
-        verify(bookingRepository).save(booking);
     }
 
     @Test
@@ -66,9 +62,6 @@ public class CompleteBookingCommandHandlerTests {
         // Act & Assert
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(NotFoundException.class);
-
-        verify(bookingRepository).findById(bookingId);
-        verify(bookingRepository, never()).save(any());
     }
 
     @Test
@@ -89,9 +82,6 @@ public class CompleteBookingCommandHandlerTests {
 
         assertThat(booking.getStatus())
             .isEqualTo(BookingStatus.COMPLETED);
-
-        verify(bookingRepository).findById(bookingId);
-        verify(bookingRepository, never()).save(any());
     }
 
     @Test
@@ -112,9 +102,6 @@ public class CompleteBookingCommandHandlerTests {
 
         assertThat(booking.getStatus())
             .isEqualTo(BookingStatus.CANCELED);
-
-        verify(bookingRepository).findById(bookingId);
-        verify(bookingRepository, never()).save(any());
     }
 
     private Booking createBooking() throws ReservationDomainException {

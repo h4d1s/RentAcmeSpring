@@ -10,7 +10,7 @@ import com.pixellabs.reservation.application.useCases.bookings.queries.getBookin
 import com.pixellabs.reservation.application.useCases.bookings.queries.getBooking.GetBookingQuery;
 import com.pixellabs.reservation.application.useCases.bookings.queries.getBookingList.GetBookingListHandler;
 import com.pixellabs.reservation.domain.bookingAggregate.Booking;
-import com.pixellabs.reservation.infrastructure.grpc.InventoryGrpcClient;
+import com.pixellabs.reservation.infrastructure.grpc.inventory.InventoryGrpcClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -15,7 +15,7 @@ FROM eclipse-temurin:21-jre-alpine
 ARG JAR_FILE=/app/services/notification/target/*SNAPSHOT.jar
 COPY --from=maven ${JAR_FILE} app.jar
 
-EXPOSE 8000
+EXPOSE 5005
 EXPOSE 8080
 
-ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000","-jar","/app.jar"]
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005","-jar","/app.jar"]
