@@ -91,7 +91,7 @@
     },
     {
       "key": "client_id",
-      "value": "rent-acme-web"
+      "value": "rent-acme-api"
     }
   ],
   "item": [
@@ -165,7 +165,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"userId\": \"{{userId}}\",\n  \"pickupDate\": \"2026-06-20T10:00:00Z\",\n  \"returnDate\": \"2026-06-25T10:00:00Z\"\n}",
+              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"userId\": \"{{userId}}\",\n  \"pickupDate\": \"2026-10-20T10:00:00Z\",\n  \"returnDate\": \"2026-10-25T10:00:00Z\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -195,7 +195,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"bookingId\": \"{{targetBookingId}}\"\n}",
+              "raw": "{\n  \"id\": \"{{targetBookingId}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -226,7 +226,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"bookingId\": \"{{targetBookingId}}\"\n}",
+              "raw": "{\n  \"id\": \"{{targetBookingId}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

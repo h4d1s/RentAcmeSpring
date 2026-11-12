@@ -14,10 +14,6 @@ permissions:
 
 env:
   CONTAINER_REGISTRY: ghcr.io/${{ github.repository_owner }}/
-  STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-  STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
-  STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-  KEYCLOAK_BACKEND_SECRET: ${{ secrets.KEYCLOAK_BACKEND_SECRET }}
 
 jobs:
   build-push:

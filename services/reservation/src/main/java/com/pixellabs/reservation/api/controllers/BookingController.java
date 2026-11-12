@@ -43,7 +43,7 @@ public class BookingController {
 	
 	@GetMapping
 	@PreAuthorize("@bookingAuthorization.canViewAll(authentication)")
-	public Page<Booking> getAllBookings(@Valid GetBookingListQuery query)
+	public Page<Booking> getBookings(@Valid GetBookingListQuery query)
 			throws NotFoundException {
 		return getBookingListHandler.handle(query);
 	}

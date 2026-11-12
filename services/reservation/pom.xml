@@ -56,8 +56,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-grpc-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -135,6 +140,11 @@
             <artifactId>inventory-grpc</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+		<dependency>
+			<groupId>com.pixellabs</groupId>
+			<artifactId>user-grpc</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
     </dependencies>
 
 	<build>

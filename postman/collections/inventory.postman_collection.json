@@ -91,7 +91,7 @@
     },
     {
       "key": "client_id",
-      "value": "rent-acme-web"
+      "value": "rent-acme-api"
     },
     {
       "key": "brandId",

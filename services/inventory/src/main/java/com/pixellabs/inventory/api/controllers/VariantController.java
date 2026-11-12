@@ -45,7 +45,7 @@ public class VariantController {
 	private final DeleteVariantHandler deleteVariantHandler;
 
 	@GetMapping
-	public Page<Variant> getAllVariants(
+	public Page<Variant> getVariants(
 			@Valid GetVariantListQuery query) {
 		return getVariantListHandler.handle(query);
 	}

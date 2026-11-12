@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.variants.queries.getVariantList;
 
-import com.pixellabs.inventory.application.services.VariantCacheService;
+import com.pixellabs.inventory.infrastructure.caching.services.VariantCacheService;
 import com.pixellabs.inventory.application.useCases.variants.dtos.VariantPageCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;

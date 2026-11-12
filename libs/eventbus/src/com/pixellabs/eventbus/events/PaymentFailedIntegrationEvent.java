@@ -4,17 +4,7 @@ import java.util.UUID;
 
 import com.pixellabs.eventbus.BaseIntegrationEvent;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class PaymentFailedIntegrationEvent extends BaseIntegrationEvent {
-	private UUID userId;
-}
+public record PaymentFailedIntegrationEvent(
+	UUID correlateId,
+	UUID userId
+) implements BaseIntegrationEvent {}

@@ -45,7 +45,7 @@ public class BrandController {
 	private final DeleteBrandHandler deleteBrandHandler;
 
 	@GetMapping
-	public Page<Brand> getAllBrands(
+	public Page<Brand> getBrands(
 			@Valid GetBrandListQuery query)
 			throws NotFoundException {
 		return getListBrandsHandler.handle(query);
@@ -61,7 +61,7 @@ public class BrandController {
 	
 	@PostMapping
 	@PreAuthorize("@brandAuthorization.canCreate(authentication)")
-	public ResponseEntity<Brand> createBrand(
+	public ResponseEntity<Brand> create(
 			@Valid @RequestBody CreateBrandCommand command)
 			throws InventoryDomainException, BadRequestException {
 		Brand brand = createBrandHandler.handle(command);
@@ -74,7 +74,7 @@ public class BrandController {
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("@brandAuthorization.canUpdate(authentication)")
-	public ResponseEntity<Brand> updateBrand(
+	public ResponseEntity<Brand> update(
 			@PathVariable UUID id,
 			@Valid @RequestBody UpdateBrandCommand command)
 			throws InventoryDomainException, BadRequestException {
@@ -84,7 +84,7 @@ public class BrandController {
 
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@brandAuthorization.canDelete(authentication)")
-	public ResponseEntity<Void> deleteBrand(
+	public ResponseEntity<Void> delete(
 			@PathVariable UUID id) throws NotFoundException {
 		deleteBrandHandler.handle(new DeleteBrandCommand(id));
 		return ResponseEntity.noContent().build();

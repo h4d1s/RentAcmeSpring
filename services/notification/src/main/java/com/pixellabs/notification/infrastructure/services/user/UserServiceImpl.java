@@ -2,10 +2,11 @@ package com.pixellabs.notification.infrastructure.services.user;
 
 import java.util.UUID;
 
+import com.pixellabs.eventbus.Exchanges;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.BusConstants;
+import com.pixellabs.eventbus.Queues;
 import com.pixellabs.eventbus.requests.GetUserIntegrationRequest;
 import com.pixellabs.eventbus.responses.GetUserIntegrationResponse;
 import com.pixellabs.notification.appplication.mappers.UserDTOMapper;
@@ -24,8 +25,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO get(UUID id) {
-		GetUserIntegrationRequest request = new GetUserIntegrationRequest(id);
-		GetUserIntegrationResponse response = (GetUserIntegrationResponse) integrationEventService.sendAndReceive(request, BusConstants.EXCHANGE_USER, BusConstants.QUEUE_USER_GET_REQUEST);
+		GetUserIntegrationRequest request = new GetUserIntegrationRequest(UUID.randomUUID(), id);
+		GetUserIntegrationResponse response = (GetUserIntegrationResponse) integrationEventService.sendAndReceive(
+			request,
+			Exchanges.USER,
+			Queues.USER_GET_REQUEST);
 		UserDTO userDTO = UserDTOMapper.INSTANCE.getUserIntegrationResponseToUserDTO(response);
 		
 		return userDTO;

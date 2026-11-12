@@ -1,10 +1,12 @@
 package com.pixellabs.payment.infrastructure.rabbitmq;
 
+import com.pixellabs.eventbus.Exchanges;
+import com.pixellabs.eventbus.RoutingKeys;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.pixellabs.eventbus.BusConstants;
+import com.pixellabs.eventbus.Queues;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -33,31 +35,31 @@ public class RabbitMQConfig {
 	// Exchanges
 	@Bean
     public DirectExchange paymentExchange() {
-        return new DirectExchange(BusConstants.EXCHANGE_PAYMENT);
+        return new DirectExchange(Exchanges.PAYMENT);
     }
 	
 	@Bean
     public DirectExchange userExchange() {
-        return new DirectExchange(BusConstants.EXCHANGE_USER);
+        return new DirectExchange(Exchanges.USER);
     }
 	
 	// Queues
 	@Bean
     public Queue paymentCompleteCommandQueue() {
-        return new Queue(BusConstants.QUEUE_PAYMENT_COMPLETE_COMMAND, true);
+        return new Queue(Queues.PAYMENT_COMPLETE_COMMAND, true);
     }
 	@Bean
     public Queue paymentCompletedQueue() {
-        return new Queue(BusConstants.QUEUE_PAYMENT_COMPLETED, true);
+        return new Queue(Queues.PAYMENT_COMPLETED, true);
     }
 	@Bean
     public Queue paymentFailedQueue() {
-        return new Queue(BusConstants.QUEUE_PAYMENT_FAILED, true);
+        return new Queue(Queues.PAYMENT_FAILED, true);
     }
 	
 	@Bean
     public Queue userCreatedQueue() {
-        return new Queue(BusConstants.QUEUE_USER_CREATED, true);
+        return new Queue(Queues.USER_CREATED, true);
     }
 	
 	// Bindings
@@ -65,25 +67,25 @@ public class RabbitMQConfig {
     public Binding paymentCompleteCommandBinding() {
         return BindingBuilder.bind(paymentCompleteCommandQueue())
                              .to(paymentExchange())
-                             .with(BusConstants.ROUTING_KEY_PAYMENT_COMPLETE_COMMAND);
+                             .with(RoutingKeys.PAYMENT_COMPLETE_COMMAND);
     }
     @Bean
     public Binding paymentCompletedBinding() {
         return BindingBuilder.bind(paymentCompletedQueue())
                              .to(paymentExchange())
-                             .with(BusConstants.ROUTING_KEY_PAYMENT_COMPLETED);
+                             .with(RoutingKeys.PAYMENT_COMPLETED);
     }
     @Bean
     public Binding paymentFailedBinding() {
         return BindingBuilder.bind(paymentFailedQueue())
                              .to(paymentExchange())
-                             .with(BusConstants.ROUTING_KEY_PAYMENT_FAILED);
+                             .with(RoutingKeys.PAYMENT_FAILED);
     }
     
     @Bean
     public Binding userCreatedBinding() {
         return BindingBuilder.bind(userCreatedQueue())
         					 .to(userExchange())
-        					 .with(BusConstants.ROUTING_KEY_USER_CREATED);
+        					 .with(RoutingKeys.USER_CREATED);
     }
 }

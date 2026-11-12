@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.models.queries.getModelList;
 
-import com.pixellabs.inventory.application.services.ModelCacheService;
+import com.pixellabs.inventory.infrastructure.caching.services.ModelCacheService;
 import com.pixellabs.inventory.application.useCases.models.dtos.ModelPageCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;

@@ -1,15 +1,11 @@
 package com.pixellabs.eventbus.commands;
 
-import lombok.*;
+import com.pixellabs.eventbus.BaseIntegrationEvent;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class UnlockVehicleCommand {
-    private UUID bookingId;
-    private UUID vehicleId;
-}
+public record UnlockVehicleCommand(
+    UUID correlateId,
+    UUID bookingId,
+    UUID vehicleId
+) implements BaseIntegrationEvent {}

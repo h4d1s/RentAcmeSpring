@@ -1,35 +1,41 @@
 package com.pixellabs.user.application.domainEventHandlers.user;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pixellabs.eventbus.Exchanges;
+import com.pixellabs.eventbus.RoutingKeys;
+import com.pixellabs.user.application.exceptions.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import com.pixellabs.eventbus.BusConstants;
 import com.pixellabs.eventbus.events.UserCreatedIntegrationEvent;
 import com.pixellabs.user.domain.userAggregate.User;
 import com.pixellabs.user.domain.userAggregate.UserRepository;
 import com.pixellabs.user.domain.userAggregate.events.UserCreatedDomainEvent;
-import com.pixellabs.user.infrastructure.rabbitmq.IntegrationEventService;
 
-@Service
+import java.util.UUID;
+
+@Component
+@RequiredArgsConstructor
 public class UserCreatedDomainEventListener {
-	
-	@Autowired
-	UserRepository userRepository;
-	
-	@Autowired
-	IntegrationEventService integrationService;
+	private final UserRepository userRepository;
+	private final RabbitTemplate rabbitTemplate;
 	
 	@EventListener
-	public void handleVehicleCreatedEvent(UserCreatedDomainEvent event)
-	{
-		Optional<User> user = userRepository.findById(event.getId());
-		if(user.isPresent()) {
-			UserCreatedIntegrationEvent integrationEvent = new UserCreatedIntegrationEvent(
-					user.get().getId(), user.get().getEmail(), user.get().getFirstName(), user.get().getLastName());
-			integrationService.publishEvent(integrationEvent, BusConstants.EXCHANGE_USER, BusConstants.ROUTING_KEY_USER_CREATED);
-		}
+	public void handle(UserCreatedDomainEvent event)  {
+		User user = userRepository.findById(event.id())
+			.orElseThrow(() -> new NotFoundException("User with id " + event.id()  + "not found."));
+        UserCreatedIntegrationEvent integrationEvent = new UserCreatedIntegrationEvent(
+			UUID.randomUUID(),
+            user.getId(),
+            user.getEmail(),
+            user.getFirstName(),
+            user.getLastName());
+
+        rabbitTemplate.convertAndSend(
+            Exchanges.USER,
+            RoutingKeys.USER_CREATED,
+            integrationEvent
+        );
 	}
 }

@@ -1,9 +1,10 @@
 package com.pixellabs.state_machine.infrastructure.services;
 
+import com.pixellabs.eventbus.Exchanges;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.BusConstants;
+import com.pixellabs.eventbus.Queues;
 import com.pixellabs.eventbus.commands.CompletePaymentIntegrationCommand;
 import com.pixellabs.eventbus.events.PaymentFailedIntegrationEvent;
 import com.pixellabs.state_machine.infrastructure.rabbitmq.IntegrationEventService;
@@ -14,10 +15,10 @@ public class PaymentService {
     private IntegrationEventService integrationEventService;
 	
 	public void send(CompletePaymentIntegrationCommand command) {
-		integrationEventService.publishEvent(command, BusConstants.EXCHANGE_PAYMENT, BusConstants.QUEUE_PAYMENT_COMPLETE_COMMAND);
+		integrationEventService.publishEvent(command, Exchanges.PAYMENT, Queues.PAYMENT_COMPLETE_COMMAND);
 	}
 	
 	public void send(PaymentFailedIntegrationEvent event) {
-		integrationEventService.publishEvent(event, BusConstants.EXCHANGE_PAYMENT, BusConstants.QUEUE_PAYMENT_FAILED);
+		integrationEventService.publishEvent(event, Exchanges.PAYMENT, Queues.PAYMENT_FAILED);
 	}
 }

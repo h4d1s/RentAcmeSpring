@@ -1,6 +1,6 @@
 package com.pixellabs.reservation.application.booking.services;
 
-import com.pixellabs.reservation.application.services.BookingCacheService;
+import com.pixellabs.reservation.infrastructure.caching.services.BookingCacheService;
 import com.pixellabs.reservation.domain.bookingAggregate.BookingRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

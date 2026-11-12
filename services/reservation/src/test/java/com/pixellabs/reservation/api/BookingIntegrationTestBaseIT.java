@@ -13,9 +13,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.rabbitmq.RabbitMQContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,7 +32,7 @@ public abstract class BookingIntegrationTestBaseIT {
 
     @Container
     static RabbitMQContainer rabbitmq =
-        new RabbitMQContainer(DockerImageName.parse("rabbitmq:4-management"))
+        new RabbitMQContainer(DockerImageName.parse("rabbitmq:4-management-alpine"))
             .withExposedPorts(5672);
 
     @DynamicPropertySource

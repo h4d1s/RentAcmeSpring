@@ -1,6 +1,6 @@
 package com.pixellabs.reservation.application.booking.queries;
 
-import com.pixellabs.reservation.application.services.BookingCacheService;
+import com.pixellabs.reservation.infrastructure.caching.services.BookingCacheService;
 import com.pixellabs.reservation.application.useCases.bookings.dtos.BookingPageCache;
 import com.pixellabs.reservation.application.useCases.bookings.queries.getBookingList.GetBookingListHandler;
 import com.pixellabs.reservation.application.useCases.bookings.queries.getBookingList.GetBookingListQuery;

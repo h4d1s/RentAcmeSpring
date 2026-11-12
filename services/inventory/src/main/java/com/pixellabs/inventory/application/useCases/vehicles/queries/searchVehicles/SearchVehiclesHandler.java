@@ -1,6 +1,6 @@
 package com.pixellabs.inventory.application.useCases.vehicles.queries.searchVehicles;
 
-import com.pixellabs.inventory.application.services.VehicleCacheService;
+import com.pixellabs.inventory.infrastructure.caching.services.VehicleCacheService;
 import com.pixellabs.inventory.application.useCases.vehicles.dtos.SearchVehiclePageCache;
 import com.pixellabs.inventory.application.useCases.vehicles.dtos.VehicleSearchResponse;
 import lombok.RequiredArgsConstructor;

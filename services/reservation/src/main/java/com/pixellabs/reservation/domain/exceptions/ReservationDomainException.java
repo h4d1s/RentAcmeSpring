@@ -1,11 +1,14 @@
 package com.pixellabs.reservation.domain.exceptions;
 
+import java.io.Serial;
+
 public class ReservationDomainException extends Exception {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	@Serial
+    private static final long serialVersionUID = 1L;
 
 	public ReservationDomainException() {
 		super();
