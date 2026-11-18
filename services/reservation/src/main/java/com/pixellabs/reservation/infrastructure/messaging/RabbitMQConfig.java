@@ -1,12 +1,12 @@
 package com.pixellabs.reservation.infrastructure.messaging;
 
-import com.pixellabs.eventbus.Exchanges;
-import com.pixellabs.eventbus.RoutingKeys;
+import com.pixellabs.libs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.RoutingKeys;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.pixellabs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.Queues;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

@@ -38,6 +38,9 @@ spring:
         provider:
           keycloak:
             token-uri: ${KEYCLOAK_TOKEN_URI}
+  grpc:
+    server:
+      port: 9090
 
 server:
   port: 8080
@@ -53,3 +56,9 @@ management:
         enabled: true
         add-additional-paths: true
       show-details: never
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.aop: DEBUG
+    io.grpc: DEBUG

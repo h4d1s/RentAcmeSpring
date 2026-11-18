@@ -1,10 +1,10 @@
 package com.pixellabs.inventory.infrastructure.messaging.listeners;
 
-import com.pixellabs.eventbus.Exchanges;
-import com.pixellabs.eventbus.RoutingKeys;
-import com.pixellabs.eventbus.commands.LockVehicleCommand;
-import com.pixellabs.eventbus.events.VehicleLockedIntegrationEvent;
-import com.pixellabs.eventbus.events.VehicleUnavailableIntegrationEvent;
+import com.pixellabs.libs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.RoutingKeys;
+import com.pixellabs.libs.eventbus.commands.LockVehicleCommand;
+import com.pixellabs.libs.eventbus.events.VehicleLockedIntegrationEvent;
+import com.pixellabs.libs.eventbus.events.VehicleUnavailableIntegrationEvent;
 import com.pixellabs.inventory.application.exceptions.NotFoundException;
 import com.pixellabs.inventory.domain.vehicleAggregate.VehicleRepository;
 import com.pixellabs.inventory.domain.vehicleAggregate.VehicleStatus;
@@ -16,7 +16,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import com.pixellabs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.Queues;
 
 import java.util.UUID;
 

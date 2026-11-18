@@ -1,6 +1,6 @@
 package com.pixellabs.reservation.domain.bookingAggregate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,13 +17,13 @@ public interface BookingRepository
         FROM Booking b
         WHERE b.vehicleId = :vehicleId
           AND b.status = :status
-          AND b.pickupDate < :returnDate
-          AND b.returnDate > :pickupDate
+          AND b.pickupAt < :returnAt
+          AND b.returnAt > :pickupAt
         """)
     boolean isVehicleReserved(
         UUID vehicleId,
-        LocalDateTime pickupDate,
-        LocalDateTime returnDate,
+        Instant pickupAt,
+        Instant returnAt,
         BookingStatus status
     );
 }

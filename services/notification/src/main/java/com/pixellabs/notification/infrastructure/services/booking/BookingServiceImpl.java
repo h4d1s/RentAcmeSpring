@@ -2,13 +2,13 @@ package com.pixellabs.notification.infrastructure.services.booking;
 
 import java.util.UUID;
 
-import com.pixellabs.eventbus.Exchanges;
-import com.pixellabs.eventbus.RoutingKeys;
+import com.pixellabs.libs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.RoutingKeys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.requests.GetBookingIntegrationRequest;
-import com.pixellabs.eventbus.responses.GetBookingIntegrationResponse;
+import com.pixellabs.libs.eventbus.requests.GetBookingIntegrationRequest;
+import com.pixellabs.libs.eventbus.responses.GetBookingIntegrationResponse;
 import com.pixellabs.notification.appplication.mappers.BookingDTOMapper;
 import com.pixellabs.notification.appplication.model.BookingDTO;
 import com.pixellabs.notification.infrastructure.rabbitmq.IntegrationEventService;

@@ -1,12 +1,12 @@
 package com.pixellabs.state_machine.infrastructure.services;
 
-import com.pixellabs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.Exchanges;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.Queues;
-import com.pixellabs.eventbus.commands.CompletePaymentIntegrationCommand;
-import com.pixellabs.eventbus.events.PaymentFailedIntegrationEvent;
+import com.pixellabs.libs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.commands.CompletePaymentIntegrationCommand;
+import com.pixellabs.libs.eventbus.events.PaymentIntentFailedIntegrationEvent;
 import com.pixellabs.state_machine.infrastructure.rabbitmq.IntegrationEventService;
 
 @Service
@@ -18,7 +18,7 @@ public class PaymentService {
 		integrationEventService.publishEvent(command, Exchanges.PAYMENT, Queues.PAYMENT_COMPLETE_COMMAND);
 	}
 	
-	public void send(PaymentFailedIntegrationEvent event) {
+	public void send(PaymentIntentFailedIntegrationEvent event) {
 		integrationEventService.publishEvent(event, Exchanges.PAYMENT, Queues.PAYMENT_FAILED);
 	}
 }

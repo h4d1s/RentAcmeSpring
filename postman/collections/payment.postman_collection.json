@@ -1,0 +1,114 @@
+{
+  "info": {
+    "_postman_id": "6e04fc9e-c7e5-4b99-998b-842dd16b5df7",
+    "name": "RentAcme - Payment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31133590"
+  },
+  "item": [
+    {
+      "name": "ConfirmPaymentIntent",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{secret_key}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "payment_method",
+              "value": "pm_card_visa"
+            },
+            {
+              "key": "return_url",
+              "value": "https://localhost/success"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://api.stripe.com/v1/payment_intents/:payment_intent_id/confirm",
+          "protocol": "https",
+          "host": [
+            "api",
+            "stripe",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "payment_intents",
+            ":payment_intent_id",
+            "confirm"
+          ],
+          "variable": [
+            {
+              "key": "payment_intent_id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CancelPaymentIntent",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{secret_key}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "payment_method",
+              "value": "pm_card_visa"
+            },
+            {
+              "key": "return_url",
+              "value": "https://localhost/success"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://api.stripe.com/v1/payment_intents/:payment_intent_id/cancel",
+          "protocol": "https",
+          "host": [
+            "api",
+            "stripe",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "payment_intents",
+            ":payment_intent_id",
+            "cancel"
+          ],
+          "variable": [
+            {
+              "key": "payment_intent_id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

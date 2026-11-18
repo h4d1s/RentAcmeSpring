@@ -124,10 +124,10 @@ services:
     ports:
       - "5225:8080"
       - "5226:5005" # debug
-      - "9090:9090" # grpc
+      - "5227:9090" # grpc
     depends_on:
       - inventory-db
-    networks: 
+    networks:
       - rentacme_network
 
   notification-api:
@@ -223,10 +223,23 @@ services:
     ports:
       - "5255:8080"
       - "5256:5005" # debug
+      - "5257:9090" # grpc
     depends_on:
       - user-db
       - keycloak
     networks: 
+      - rentacme_network
+
+  payment-db:
+    image: postgres
+    container_name: payment-db
+    ports:
+      - "5260:5432"
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: payment
+    networks:
       - rentacme_network
 
   payment-api:
@@ -236,11 +249,22 @@ services:
       context: .
       dockerfile: ./services/payment/Dockerfile
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-db:5432/payment
+      SPRING_DATASOURCE_USERNAME: $POSTGRES_USER
+      SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
       RABBITMQ_HOST: $RABBITMQ_HOST
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      STRIPE_API_KEY: $STRIPE_API_KEY
+      KEYCLOAK_ISSUER_URI: $KEYCLOAK_ISSUER_URI
+      KEYCLOAK_JWK_SET_URI: $KEYCLOAK_JWK_SET_URI
+      KEYCLOAK_CLIENT_ID: $KEYCLOAK_CLIENT_ID
+      KEYCLOAK_CLIENT_SECRET: $KEYCLOAK_CLIENT_SECRET
+      KEYCLOAK_TOKEN_URI: $KEYCLOAK_TOKEN_URI
+      STRIPE_SECRET_KEY: $STRIPE_SECRET_KEY
+      STRIPE_PUBLISHABLE_KEY: $STRIPE_PUBLISHABLE_KEY
+      STRIPE_WEBHOOK_SECRET: $STRIPE_WEBHOOK_SECRET
+      STRIPE_CURRENCY: $STRIPE_CURRENCY
     ports:
       - "5265:8080"
       - "5266:5005" # debug

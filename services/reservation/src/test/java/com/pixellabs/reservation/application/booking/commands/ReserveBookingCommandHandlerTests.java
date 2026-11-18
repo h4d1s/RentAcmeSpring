@@ -15,7 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,8 +40,8 @@ public class ReserveBookingCommandHandlerTests {
         UUID vehicleId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
 
-        LocalDateTime pickupDate = LocalDateTime.now().plusDays(1);
-        LocalDateTime returnDate = pickupDate.plusDays(3);
+        Instant pickupDate = Instant.now().plus(1, ChronoUnit.DAYS);
+        Instant returnDate = pickupDate.plus(3, ChronoUnit.DAYS);
 
         ReserveBookingCommand command = new ReserveBookingCommand(
             vehicleId,
@@ -102,8 +103,8 @@ public class ReserveBookingCommandHandlerTests {
         ReserveBookingCommand command = new ReserveBookingCommand(
             UUID.randomUUID(),
             UUID.randomUUID(),
-            LocalDateTime.now().minusDays(1),
-            LocalDateTime.now().plusDays(2)
+            Instant.now().minus(1, ChronoUnit.DAYS),
+            Instant.now().plus(2, ChronoUnit.DAYS)
         );
 
         // Act & Assert
@@ -114,8 +115,8 @@ public class ReserveBookingCommandHandlerTests {
     @Test
     void handle_WhenReturnDateIsBeforePickupDate_ShouldThrowReservationDomainException() {
         // Arrange
-        LocalDateTime pickupDate = LocalDateTime.now().plusDays(3);
-        LocalDateTime returnDate = LocalDateTime.now().plusDays(1);
+        Instant pickupDate = Instant.now().plus(3, ChronoUnit.DAYS);
+        Instant returnDate = Instant.now().plus(1, ChronoUnit.DAYS);
 
         ReserveBookingCommand command = new ReserveBookingCommand(
             UUID.randomUUID(),
@@ -147,13 +148,13 @@ public class ReserveBookingCommandHandlerTests {
     }
 
     private ReserveBookingCommand createValidCommand() {
-        LocalDateTime pickupDate = LocalDateTime.now().plusDays(1);
+        Instant pickupDate = Instant.now().plus(1, ChronoUnit.DAYS);
 
         return new ReserveBookingCommand(
             UUID.randomUUID(),
             UUID.randomUUID(),
             pickupDate,
-            pickupDate.plusDays(3)
+            pickupDate.plus(3, ChronoUnit.DAYS)
         );
     }
 }

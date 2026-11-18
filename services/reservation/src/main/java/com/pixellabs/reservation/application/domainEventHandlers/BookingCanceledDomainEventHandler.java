@@ -1,13 +1,13 @@
 package com.pixellabs.reservation.application.domainEventHandlers;
 
-import com.pixellabs.eventbus.Exchanges;
-import com.pixellabs.eventbus.RoutingKeys;
+import com.pixellabs.libs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.RoutingKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.pixellabs.eventbus.events.BookingCanceledIntegrationEvent;
+import com.pixellabs.libs.eventbus.events.BookingCanceledIntegrationEvent;
 import com.pixellabs.reservation.domain.bookingAggregate.Booking;
 import com.pixellabs.reservation.domain.bookingAggregate.events.BookingCanceledDomainEvent;
 

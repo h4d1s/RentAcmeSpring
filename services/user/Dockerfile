@@ -19,5 +19,6 @@ COPY --from=maven ${JAR_FILE} app.jar
 
 EXPOSE 5005
 EXPOSE 8080
+EXPOSE 9090
 
 ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005","-jar","/app.jar"]

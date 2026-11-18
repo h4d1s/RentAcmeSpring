@@ -5,7 +5,7 @@ import com.pixellabs.reservation.domain.bookingAggregate.BookingStatus;
 import com.pixellabs.reservation.domain.exceptions.ReservationDomainException;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,15 +17,15 @@ class BookingAggregateTest {
         // Arrange
         UUID vehicleId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
-        LocalDateTime pickupDate = LocalDateTime.now();
-        LocalDateTime returnDate = pickupDate.plusSeconds(2 * 24 * 60 * 60);
+        Instant pickupAt = Instant.now();
+        Instant returnAt = pickupAt.plusSeconds(2 * 24 * 60 * 60);
 
         // Act
         Booking booking = new Booking(
             vehicleId,
             userId,
-            pickupDate,
-            returnDate
+            pickupAt,
+            returnAt
         );
 
         // Assert
@@ -39,8 +39,8 @@ class BookingAggregateTest {
             "00000000-0000-0000-0000-000000000000"
         );
         UUID userId = UUID.randomUUID();
-        LocalDateTime pickupDate = LocalDateTime.now();
-        LocalDateTime returnDate = null;
+        Instant pickupDate = Instant.now();
+        Instant returnDate = null;
 
         // Act
         ReservationDomainException exception = assertThrows(
@@ -73,8 +73,8 @@ class BookingAggregateTest {
     private Booking createValidBooking() throws ReservationDomainException {
         UUID vehicleId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
-        LocalDateTime pickupDate = LocalDateTime.now();
-        LocalDateTime returnDate = pickupDate.plusSeconds(2 * 24 * 60 * 60);
+        Instant pickupDate = Instant.now();
+        Instant returnDate = pickupDate.plusSeconds(2 * 24 * 60 * 60);
 
         return new Booking(vehicleId, userId, pickupDate, returnDate);
     }

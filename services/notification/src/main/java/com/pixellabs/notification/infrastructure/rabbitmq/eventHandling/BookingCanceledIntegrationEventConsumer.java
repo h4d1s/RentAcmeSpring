@@ -4,8 +4,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.Queues;
-import com.pixellabs.eventbus.events.BookingCanceledIntegrationEvent;
+import com.pixellabs.libs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.events.BookingCanceledIntegrationEvent;
 import com.pixellabs.notification.appplication.model.BookingDTO;
 import com.pixellabs.notification.appplication.model.UserDTO;
 import com.pixellabs.notification.infrastructure.services.booking.BookingService;

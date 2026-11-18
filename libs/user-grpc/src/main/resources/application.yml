@@ -1,0 +1,6 @@
+spring:
+  grpc:
+    client:
+      channel:
+        user-service:
+          target: static://user-api:9090
