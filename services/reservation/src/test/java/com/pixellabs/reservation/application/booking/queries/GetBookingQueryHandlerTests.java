@@ -12,7 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -66,8 +67,8 @@ public class GetBookingQueryHandlerTests {
         return new Booking(
             UUID.randomUUID(),
             UUID.randomUUID(),
-            LocalDateTime.now().plusDays(1),
-            LocalDateTime.now().plusDays(3)
+            Instant.now().plus(1, ChronoUnit.DAYS),
+            Instant.now().plus(3, ChronoUnit.DAYS)
         );
     }
 }

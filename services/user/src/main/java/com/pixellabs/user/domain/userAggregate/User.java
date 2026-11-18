@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.pixellabs.user.domain.userAggregate.exceptions.UserDomainException;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "app_user")
 public class User extends AbstractAggregateRoot<User> {
 	@Id
@@ -40,6 +41,7 @@ public class User extends AbstractAggregateRoot<User> {
 		String lastName,
 		String phoneNumber) throws UserDomainException {
 		super();
+
 		this.id = UUID.randomUUID();
 		this.externalId = externalId;
 		updateUsername(username);
@@ -62,12 +64,10 @@ public class User extends AbstractAggregateRoot<User> {
 	}
 
 	public void updateFirstName(String firstName) throws UserDomainException {
-		validateFirstName(firstName);
 		this.firstName = firstName;
 	}
 
 	public void updateLastName(String lastName) throws UserDomainException {
-		validateLastName(lastName);
 		this.lastName = lastName;
 	}
 
@@ -80,7 +80,6 @@ public class User extends AbstractAggregateRoot<User> {
 	}
 
 	public void updatePhoneNumber(String phoneNumber) throws UserDomainException {
-		validatePhoneNumber(phoneNumber);
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -97,15 +96,6 @@ public class User extends AbstractAggregateRoot<User> {
 
 	private void validateUsername(String username) throws UserDomainException {
 		validateNotEmpty(username, "username");
-	}
-
-	private void validateFirstName(String firstName) throws UserDomainException {
-	}
-
-	private void validateLastName(String lastName) throws UserDomainException {
-	}
-
-	private void validatePhoneNumber(String phoneNumber) throws UserDomainException {
 	}
 
 	private void validateNotEmpty(String value, String fieldName) throws UserDomainException {

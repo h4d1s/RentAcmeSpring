@@ -3,7 +3,7 @@ package com.pixellabs.notification.appplication.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import com.pixellabs.eventbus.responses.GetBookingIntegrationResponse;
+import com.pixellabs.libs.eventbus.responses.GetBookingIntegrationResponse;
 import com.pixellabs.notification.appplication.model.BookingDTO;
 
 @Mapper(componentModel = "spring")

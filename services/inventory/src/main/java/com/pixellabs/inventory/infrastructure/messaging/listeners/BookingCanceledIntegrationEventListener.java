@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import com.pixellabs.eventbus.Queues;
-import com.pixellabs.eventbus.events.BookingCanceledIntegrationEvent;
+import com.pixellabs.libs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.events.BookingCanceledIntegrationEvent;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;

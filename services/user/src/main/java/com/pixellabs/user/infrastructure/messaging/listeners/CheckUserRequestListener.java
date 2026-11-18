@@ -1,15 +1,15 @@
 package com.pixellabs.user.infrastructure.messaging.listeners;
 
-import com.pixellabs.eventbus.Exchanges;
-import com.pixellabs.eventbus.RoutingKeys;
+import com.pixellabs.libs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.RoutingKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
-import com.pixellabs.eventbus.Queues;
-import com.pixellabs.eventbus.requests.CheckUserIntegrationRequest;
-import com.pixellabs.eventbus.responses.UserStatusIntegrationResponse;
+import com.pixellabs.libs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.requests.CheckUserIntegrationRequest;
+import com.pixellabs.libs.eventbus.responses.UserStatusIntegrationResponse;
 import com.pixellabs.user.domain.userAggregate.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 

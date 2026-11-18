@@ -1,9 +1,9 @@
 package com.pixellabs.user.infrastructure.messaging.listeners;
 
-import com.pixellabs.eventbus.Queues;
-import com.pixellabs.eventbus.events.KeycloakAdminIntegrationEvent;
-import com.pixellabs.eventbus.events.KeycloakClientIntegrationEvent;
-import com.pixellabs.eventbus.events.KeycloakUserRepresentation;
+import com.pixellabs.libs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.events.KeycloakAdminIntegrationEvent;
+import com.pixellabs.libs.eventbus.events.KeycloakClientIntegrationEvent;
+import com.pixellabs.libs.eventbus.events.KeycloakUserRepresentation;
 import com.pixellabs.user.application.exceptions.NotFoundException;
 import com.pixellabs.user.domain.userAggregate.User;
 import com.pixellabs.user.domain.userAggregate.UserRepository;

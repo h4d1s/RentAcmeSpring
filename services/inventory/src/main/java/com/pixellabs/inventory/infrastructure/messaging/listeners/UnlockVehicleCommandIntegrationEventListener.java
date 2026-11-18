@@ -1,11 +1,11 @@
 package com.pixellabs.inventory.infrastructure.messaging.listeners;
 
-import com.pixellabs.eventbus.Queues;
-import com.pixellabs.eventbus.Exchanges;
-import com.pixellabs.eventbus.RoutingKeys;
-import com.pixellabs.eventbus.commands.UnlockVehicleCommand;
-import com.pixellabs.eventbus.events.VehicleUnavailableIntegrationEvent;
-import com.pixellabs.eventbus.events.VehicleUnlockedIntegrationEvent;
+import com.pixellabs.libs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.RoutingKeys;
+import com.pixellabs.libs.eventbus.commands.UnlockVehicleCommand;
+import com.pixellabs.libs.eventbus.events.VehicleUnavailableIntegrationEvent;
+import com.pixellabs.libs.eventbus.events.VehicleUnlockedIntegrationEvent;
 import com.pixellabs.inventory.domain.vehicleAggregate.VehicleRepository;
 import com.pixellabs.inventory.domain.vehicleAggregate.VehicleStatus;
 import lombok.RequiredArgsConstructor;

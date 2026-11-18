@@ -2,13 +2,13 @@ package com.pixellabs.notification.infrastructure.services.user;
 
 import java.util.UUID;
 
-import com.pixellabs.eventbus.Exchanges;
+import com.pixellabs.libs.eventbus.Exchanges;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.Queues;
-import com.pixellabs.eventbus.requests.GetUserIntegrationRequest;
-import com.pixellabs.eventbus.responses.GetUserIntegrationResponse;
+import com.pixellabs.libs.eventbus.Queues;
+import com.pixellabs.libs.eventbus.requests.GetUserIntegrationRequest;
+import com.pixellabs.libs.eventbus.responses.GetUserIntegrationResponse;
 import com.pixellabs.notification.appplication.mappers.UserDTOMapper;
 import com.pixellabs.notification.appplication.model.UserDTO;
 import com.pixellabs.notification.infrastructure.rabbitmq.IntegrationEventService;

@@ -27,8 +27,8 @@ public class ReserveBookingHandler {
 			throws NotFoundException, ReservationDomainException {
 		boolean isVehicleReserved = bookingRepository.isVehicleReserved(
 			command.vehicleId(),
-			command.pickupDate(),
-			command.returnDate(),
+			command.pickupAt(),
+			command.returnAt(),
 			BookingStatus.RESERVED);
 
 		if(isVehicleReserved) {
@@ -38,8 +38,8 @@ public class ReserveBookingHandler {
 		Booking booking = new Booking(
 			command.vehicleId(),
 			command.userId(),
-			command.pickupDate(),
-			command.returnDate());
+			command.pickupAt(),
+			command.returnAt());
 
 		GetVehicleResponse response = inventoryGrpcClient.getVehicle(booking.getVehicleId());
         if(response == null) {

@@ -2,7 +2,7 @@ package com.pixellabs.notification.appplication.mappers;
 
 import org.mapstruct.factory.Mappers;
 
-import com.pixellabs.eventbus.responses.GetUserIntegrationResponse;
+import com.pixellabs.libs.eventbus.responses.GetUserIntegrationResponse;
 import com.pixellabs.notification.appplication.model.UserDTO;
 
 public interface UserDTOMapper {

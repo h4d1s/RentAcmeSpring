@@ -20,7 +20,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -115,8 +116,8 @@ public class BookingControllerTestsIT extends BookingIntegrationTestBaseIT {
         Booking booking = new Booking(
             UUID.randomUUID(),
             UUID.randomUUID(),
-            LocalDateTime.now().plusMinutes(5),
-            LocalDateTime.now().plusDays(3)
+            Instant.now().plus(5, ChronoUnit.MINUTES),
+            Instant.now().plus(3, ChronoUnit.DAYS)
         );
 
         when(getBookingHandler.handle(any(GetBookingQuery.class)))
@@ -152,8 +153,8 @@ public class BookingControllerTestsIT extends BookingIntegrationTestBaseIT {
         Booking booking = new Booking(
             UUID.randomUUID(),
             UUID.randomUUID(),
-            LocalDateTime.now().plusMinutes(5),
-            LocalDateTime.now().plusDays(3)
+            Instant.now().plus(5, ChronoUnit.MINUTES),
+            Instant.now().plus(3, ChronoUnit.DAYS)
         );
 
         when(reserveBookingHandler.handle(any(ReserveBookingCommand.class)))
@@ -162,8 +163,8 @@ public class BookingControllerTestsIT extends BookingIntegrationTestBaseIT {
         ReserveBookingCommand command = new ReserveBookingCommand(
             UUID.randomUUID(),
             UUID.randomUUID(),
-            LocalDateTime.now().plusMinutes(5),
-            LocalDateTime.now().plusDays(2)
+            Instant.now().plus(5, ChronoUnit.MINUTES),
+            Instant.now().plus(2, ChronoUnit.DAYS)
         );
 
         mockMvc.perform(post(BASE_URL)
@@ -189,8 +190,8 @@ public class BookingControllerTestsIT extends BookingIntegrationTestBaseIT {
         ReserveBookingCommand command = new ReserveBookingCommand(
             UUID.randomUUID(),
             UUID.randomUUID(),
-            LocalDateTime.now().plusMinutes(5),
-            LocalDateTime.now().plusDays(2)
+            Instant.now().plus(5, ChronoUnit.MINUTES),
+            Instant.now().plus(2, ChronoUnit.DAYS)
         );
 
         mockMvc.perform(post(BASE_URL)

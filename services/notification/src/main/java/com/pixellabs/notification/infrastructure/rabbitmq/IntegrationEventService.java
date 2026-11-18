@@ -3,7 +3,7 @@ package com.pixellabs.notification.infrastructure.rabbitmq;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
-import com.pixellabs.eventbus.BaseIntegrationEvent;
+import com.pixellabs.libs.eventbus.BaseIntegrationEvent;
 
 @Service
 public class IntegrationEventService {
