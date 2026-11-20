@@ -12,8 +12,10 @@
 
     <modules>
         <module>libs/eventbus</module>
+        <module>libs/security-grpc</module>
         <module>libs/inventory-grpc</module>
         <module>libs/user-grpc</module>
+        <module>libs/reservation-grpc</module>
         <module>services/gateway</module>
         <module>services/inventory</module>
         <module>services/notification</module>

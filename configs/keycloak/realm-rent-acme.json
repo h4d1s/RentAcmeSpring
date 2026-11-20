@@ -376,7 +376,8 @@
       "enabled": true,
       "clientRoles": {
         "rent-acme-api": [
-          "user.view.any"
+          "user.view.any",
+          "booking.view.any"
         ],
         "realm-management": [
           "view-users",

@@ -141,6 +141,13 @@ services:
       RABBITMQ_PORT: $RABBITMQ_PORT
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
+      MAIL_HOST: $MAIL_HOST
+      MAIL_PORT: $MAIL_PORT
+      MAIL_USERNAME: $MAIL_USERNAME
+      MAIL_PASSWORD: $MAIL_PASSWORD
+      KEYCLOAK_CLIENT_ID: $KEYCLOAK_CLIENT_ID
+      KEYCLOAK_CLIENT_SECRET: $KEYCLOAK_CLIENT_SECRET
+      KEYCLOAK_TOKEN_URI: $KEYCLOAK_TOKEN_URI
     ports:
       - "5235:8080"
       - "5236:5005" # debug
@@ -181,6 +188,7 @@ services:
     ports:
       - "5245:8080"
       - "5246:5005" # debug
+      - "5247:9090" # grpc
     depends_on:
       - reservation-db
     networks: 

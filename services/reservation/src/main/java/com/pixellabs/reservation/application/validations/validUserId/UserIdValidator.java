@@ -1,6 +1,6 @@
 package com.pixellabs.reservation.application.validations.validUserId;
 
-import com.pixellabs.libs.user.grpc.UserGrpcClient;
+import com.pixellabs.libs.user.grpc.UserGrpcClientService;
 import io.grpc.StatusRuntimeException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class UserIdValidator implements ConstraintValidator<ValidUserId, UUID> {
-    public final UserGrpcClient userGrpcClient;
+    public final UserGrpcClientService userGrpcClientService;
 
     @Override
     public boolean isValid(UUID userId, ConstraintValidatorContext context) {
@@ -21,7 +21,7 @@ public class UserIdValidator implements ConstraintValidator<ValidUserId, UUID> {
         }
 
         try {
-            return userGrpcClient.existsUser(userId);
+            return userGrpcClientService.existsUser(userId);
         } catch (StatusRuntimeException ex) {
             log.error("Failed to validate user existence: {}", userId, ex);
             return false;

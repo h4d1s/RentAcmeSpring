@@ -34,6 +34,8 @@ spring:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
   grpc:
+    server:
+      port: 9090
     client:
       channel:
         inventory-service:

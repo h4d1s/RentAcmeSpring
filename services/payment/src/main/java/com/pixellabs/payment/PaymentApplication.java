@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ConfigurationPropertiesScan
 @ComponentScan(basePackages = {
 	"com.pixellabs.payment",
+	"com.pixellabs.libs.security.grpc",
 	"com.pixellabs.libs.user.grpc"
 })
 public class PaymentApplication {

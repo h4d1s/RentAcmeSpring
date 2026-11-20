@@ -22,7 +22,7 @@ public class UserGrpcServerService
     private final UserRepository userRepository;
 
     @Override
-    @PreAuthorize("@userAuthorization.canViewAny(authentication)")
+    @PreAuthorize("@userAuthorization.canView(authentication, #request.getUserId())")
     public void userExists(
         UserExistsRequest request,
         StreamObserver<UserExistsResponse> responseObserver) {
@@ -55,7 +55,7 @@ public class UserGrpcServerService
     }
 
     @Override
-    @PreAuthorize("@userAuthorization.canViewAny(authentication)")
+    @PreAuthorize("@userAuthorization.canView(authentication, #request.getUserId())")
     public void getUser(
         GetUserRequest request,
         StreamObserver<GetUserResponse> responseObserver) {

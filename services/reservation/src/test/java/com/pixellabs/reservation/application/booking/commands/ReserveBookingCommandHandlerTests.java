@@ -6,7 +6,7 @@ import com.pixellabs.reservation.application.useCases.bookings.commands.reserveB
 import com.pixellabs.reservation.domain.bookingAggregate.Booking;
 import com.pixellabs.reservation.domain.bookingAggregate.BookingRepository;
 import com.pixellabs.reservation.domain.exceptions.ReservationDomainException;
-import com.pixellabs.reservation.infrastructure.grpc.inventory.InventoryGrpcClient;
+import com.pixellabs.reservation.infrastructure.grpc.client.inventory.InventoryGrpcClientService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ public class ReserveBookingCommandHandlerTests {
     private BookingRepository bookingRepository;
 
     @Mock
-    private InventoryGrpcClient inventoryGrpcClient;
+    private InventoryGrpcClientService inventoryGrpcClientService;
 
     @InjectMocks
     private ReserveBookingHandler handler;
@@ -54,7 +54,7 @@ public class ReserveBookingCommandHandlerTests {
             .setRentalPricePerDay(100.0)
             .build();
 
-        when(inventoryGrpcClient.getVehicle(vehicleId))
+        when(inventoryGrpcClientService.getVehicle(vehicleId))
             .thenReturn(response);
         when(bookingRepository.save(any(Booking.class)))
             .thenAnswer(invocation -> invocation.getArgument(0));
@@ -76,7 +76,7 @@ public class ReserveBookingCommandHandlerTests {
         // Arrange
         ReserveBookingCommand command = createValidCommand();
 
-        when(inventoryGrpcClient.getVehicle(command.vehicleId()))
+        when(inventoryGrpcClientService.getVehicle(command.vehicleId()))
             .thenReturn(null);
 
         // Act & Assert
@@ -89,7 +89,7 @@ public class ReserveBookingCommandHandlerTests {
         // Arrange
         ReserveBookingCommand command = createValidCommand();
 
-        when(inventoryGrpcClient.getVehicle(command.vehicleId()))
+        when(inventoryGrpcClientService.getVehicle(command.vehicleId()))
             .thenThrow(new RuntimeException("Inventory service unavailable"));
 
         // Act & Assert
@@ -139,7 +139,7 @@ public class ReserveBookingCommandHandlerTests {
             .setRentalPricePerDay(0.0)
             .build();
 
-        when(inventoryGrpcClient.getVehicle(command.vehicleId()))
+        when(inventoryGrpcClientService.getVehicle(command.vehicleId()))
             .thenReturn(response);
 
         // Act & Assert

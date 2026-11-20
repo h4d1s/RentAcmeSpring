@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.pixellabs.libs.reservation.grpc";
+
+service BookingProtoService {
+  rpc GetBooking(GetBookingRequest) returns (GetBookingResponse) {}
+}
+
+message GetBookingRequest {
+  string id = 1;
+}
+
+message GetBookingResponse {
+  string id = 1;
+  string vehicle_id = 2;
+  string user_id = 3;
+  string pickup_at = 4;
+  string return_at = 5;
+  string booking_at = 6;
+  string price = 7;
+}

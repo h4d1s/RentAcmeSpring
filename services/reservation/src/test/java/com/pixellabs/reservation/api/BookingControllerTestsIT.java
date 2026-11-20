@@ -10,7 +10,7 @@ import com.pixellabs.reservation.application.useCases.bookings.queries.getBookin
 import com.pixellabs.reservation.application.useCases.bookings.queries.getBooking.GetBookingQuery;
 import com.pixellabs.reservation.application.useCases.bookings.queries.getBookingList.GetBookingListHandler;
 import com.pixellabs.reservation.domain.bookingAggregate.Booking;
-import com.pixellabs.reservation.infrastructure.grpc.inventory.InventoryGrpcClient;
+import com.pixellabs.reservation.infrastructure.grpc.client.inventory.InventoryGrpcClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +56,11 @@ public class BookingControllerTestsIT extends BookingIntegrationTestBaseIT {
     private ReserveBookingHandler reserveBookingHandler;
 
     @MockitoBean
-    private InventoryGrpcClient inventoryGrpcClient;
+    private InventoryGrpcClientService inventoryGrpcClientService;
 
     @BeforeEach
     void setUp() {
-        when(inventoryGrpcClient.checkVehicle(any())).thenReturn(true);
+        when(inventoryGrpcClientService.checkVehicle(any())).thenReturn(true);
     }
 
     // GET /api/v1/bookings
