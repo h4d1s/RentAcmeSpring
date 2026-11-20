@@ -165,7 +165,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"userId\": \"{{userId}}\",\n  \"pickupDate\": \"2026-10-20T10:00:00Z\",\n  \"returnDate\": \"2026-10-25T10:00:00Z\"\n}",
+              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"userId\": \"{{userId}}\",\n  \"pickupAt\": \"2027-10-20T10:00:00Z\",\n  \"returnAt\": \"2027-10-25T10:00:00Z\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

@@ -92,6 +92,11 @@
 			<artifactId>eventbus</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.pixellabs</groupId>
+			<artifactId>security-grpc</artifactId>
+			<version>1.0.0</version>
+		</dependency>
         <dependency>
             <groupId>com.pixellabs</groupId>
             <artifactId>user-grpc</artifactId>

@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AccessLevel;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
@@ -28,6 +30,7 @@ public class Booking extends AbstractAggregateRoot<Booking> {
 	private UUID userId;
 	private Instant pickupAt;
 	private Instant returnAt;
+	@Enumerated(EnumType.STRING)
 	private BookingStatus status;
 	private Instant bookingAt;
 	private BigDecimal price;

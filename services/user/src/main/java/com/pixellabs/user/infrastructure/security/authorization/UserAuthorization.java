@@ -25,7 +25,7 @@ public class UserAuthorization {
     ) {
         if (hasAuthority(
             authentication,
-            "user.view.own"
+            "user.view.any"
         )) {
             return true;
         }
@@ -41,7 +41,7 @@ public class UserAuthorization {
         UUID id) {
         if (hasAuthority(
             authentication,
-            "user.update.own"
+            "user.update.any"
         )) {
             return true;
         }

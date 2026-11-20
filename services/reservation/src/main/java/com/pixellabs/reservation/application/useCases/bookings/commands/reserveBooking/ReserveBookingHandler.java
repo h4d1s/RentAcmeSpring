@@ -2,7 +2,7 @@ package com.pixellabs.reservation.application.useCases.bookings.commands.reserve
 
 import com.pixellabs.inventory.grpc.GetVehicleResponse;
 import com.pixellabs.reservation.domain.bookingAggregate.BookingStatus;
-import com.pixellabs.reservation.infrastructure.grpc.inventory.InventoryGrpcClient;
+import com.pixellabs.reservation.infrastructure.grpc.client.inventory.InventoryGrpcClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import com.pixellabs.reservation.domain.bookingAggregate.Booking;
@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class ReserveBookingHandler {
 	private final BookingRepository bookingRepository;
-	private final InventoryGrpcClient inventoryGrpcClient;
+	private final InventoryGrpcClientService inventoryGrpcClientService;
 
 	@CacheEvict(value = "bookings", allEntries = true)
 	@Transactional
@@ -41,7 +41,7 @@ public class ReserveBookingHandler {
 			command.pickupAt(),
 			command.returnAt());
 
-		GetVehicleResponse response = inventoryGrpcClient.getVehicle(booking.getVehicleId());
+		GetVehicleResponse response = inventoryGrpcClientService.getVehicle(booking.getVehicleId());
         if(response == null) {
 			throw new IllegalStateException("Inventory service returned null response");
 		}
